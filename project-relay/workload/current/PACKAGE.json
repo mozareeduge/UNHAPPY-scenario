@@ -1,0 +1,11 @@
+{
+  "package_type": "project-relay-visible-workload",
+  "schema_version": "1.0.0",
+  "package_id": "unhappy-scenario-repository-establishment",
+  "package_version": "1.0.0",
+  "project": {
+    "name": "UNHAPPY Scenario",
+    "repository": "https://github.com/mozareeduge/UNHAPPY-scenario"
+  },
+  "active_package": true
+}

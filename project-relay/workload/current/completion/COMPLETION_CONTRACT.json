@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "required_check_ids": [
+    "visible-setup",
+    "static-artwork",
+    "browser-qa"
+  ],
+  "required_manual_checkpoint_ids": [
+    "manual-visual-aesthetic",
+    "manual-pr-review"
+  ],
+  "blocking_finding_levels": [
+    "critical",
+    "high"
+  ],
+  "required_external_state": {
+    "draft_pr": true,
+    "merge": false,
+    "repository_settings_changed": false
+  }
+}

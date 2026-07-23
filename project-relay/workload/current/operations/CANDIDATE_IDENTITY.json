@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "material_paths": [
+    "index.html",
+    "README.md",
+    "CHANGELOG.md",
+    "CITATION.cff",
+    "RIGHTS.md",
+    "procedure-text.txt",
+    "statement.txt",
+    "docs/**",
+    "tests/**",
+    ".github/**"
+  ],
+  "exclude_patterns": [
+    "docs/screenshots/**",
+    "tests/qa-results.json"
+  ],
+  "state_only_paths": [
+    "project-relay/**",
+    "CLAUDE.md",
+    "PROJECT_RELAY.md",
+    "repo-seed-checksums.sha256",
+    "checksums.sha256"
+  ]
+}

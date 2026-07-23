@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="UNHAPPY Scenario — An Internet Blackout Poem by mozare.">
+  <meta name="author" content="Mohammad Zare">
+  <title>UNHAPPY Scenario — An Internet Blackout Poem</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --black: #000;
+      --black-1: #020202;
+      --black-2: #050505;
+      --black-3: #090909;
+      --black-4: #101010;
+      --bone: #eee9df;
+      --bone-bright: #f7f2e8;
+      --bone-dim: rgba(238,233,223,.64);
+      --ash: rgba(210,210,207,.38);
+      --ash-strong: rgba(222,222,218,.63);
+      --line: rgba(238,233,223,.12);
+      --line-strong: rgba(238,233,223,.22);
+      --blood: #7f272c;
+      --blood-bright: #b34b50;
+      --blood-soft: rgba(127,39,44,.18);
+      --rust: #8c4a43;
+      --silver: #aeb2ba;
+      --cold: #808ab5;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --poem-height: 0px;
+      --display-font: "Inter Display", "Segoe UI Variable Display", "Aptos Display", system-ui, sans-serif;
+      --state-font: Bahnschrift, "Roboto Condensed", "Arial Narrow", "Liberation Sans Narrow", sans-serif;
+      --ui-font: "Segoe UI Variable Text", Inter, "Helvetica Neue", Arial, system-ui, sans-serif;
+      --editorial-font: "Iowan Old Style", "Baskerville", "Palatino Linotype", Georgia, serif;
+      --ease: cubic-bezier(.22,.78,.18,1);
+      --ease-heavy: cubic-bezier(.18,.76,.16,1);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+    body { font-family: var(--ui-font); color: var(--bone); -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+    button { font: inherit; color: inherit; }
+    [hidden] { display: none !important; }
+    [inert] { user-select: none; }
+    :focus-visible { outline: 2px solid var(--bone-bright); outline-offset: 4px; }
+
+    .visually-hidden {
+      position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important;
+      margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important;
+      white-space: nowrap !important; border: 0 !important;
+    }
+    .noscript { min-height: 100vh; padding: 48px 24px; background: #fff; color: #111; line-height: 1.6; }
+
+    /* Threshold — authored page, not app chrome */
+    .threshold {
+      position: fixed; inset: 0; z-index: 1000; overflow: hidden; display: grid; place-items: center;
+      padding: max(28px, var(--safe-top)) max(24px, var(--safe-right)) max(28px, var(--safe-bottom)) max(24px, var(--safe-left));
+      background:
+        radial-gradient(58vw 46vw at 72% 22%, rgba(127,39,44,.055), transparent 70%),
+        radial-gradient(48vw 58vw at 12% 86%, rgba(128,138,181,.025), transparent 70%),
+        #000;
+      transition: opacity 1.35s var(--ease), visibility 1.35s step-end;
+    }
+    .threshold.is-leaving { opacity: 0; visibility: hidden; }
+    .threshold::before,
+    .threshold::after {
+      content: ""; position: absolute; pointer-events: none;
+    }
+    .threshold::before {
+      width: 86vmax; height: 42vmax; right: -32vmax; top: -17vmax;
+      border: 1px solid rgba(238,233,223,.045); border-radius: 55% 45% 67% 33% / 47% 61% 39% 53%;
+      transform: rotate(-12deg); box-shadow: inset 0 0 100px rgba(255,255,255,.012), 0 0 140px rgba(127,39,44,.025);
+    }
+    .threshold::after {
+      width: 42vmax; height: 76vmax; left: -27vmax; bottom: -38vmax;
+      border: 1px solid rgba(127,39,44,.055); border-radius: 62% 38% 44% 56% / 39% 61% 39% 61%;
+      transform: rotate(15deg);
+    }
+    .threshold-inner {
+      position: relative; width: min(980px, 92vw); min-height: min(700px, 82vh);
+      display: grid; grid-template-columns: 3px minmax(0,1fr); column-gap: clamp(30px, 5vw, 70px);
+      align-content: center;
+    }
+    .threshold-axis {
+      position: relative; width: 1px; min-height: 410px; align-self: center;
+      background: linear-gradient(180deg, transparent, rgba(238,233,223,.18) 16%, rgba(127,39,44,.48) 61%, transparent 96%);
+      box-shadow: 0 0 28px rgba(127,39,44,.12);
+    }
+    .threshold-axis::after {
+      content: ""; position: absolute; left: -2px; top: 60%; width: 5px; height: 5px; border-radius: 50%; background: var(--blood-bright);
+      box-shadow: 0 0 20px rgba(179,75,80,.46);
+    }
+    .threshold-copy { align-self: center; }
+    .threshold h1 { margin: 0; display: grid; width: max-content; max-width: 100%; }
+    .threshold .title-unhappy {
+      font-family: var(--display-font); font-size: clamp(54px, 9.5vw, 126px); font-weight: 280;
+      line-height: .82; letter-spacing: -.065em; text-transform: uppercase;
+    }
+    .threshold .title-scenario {
+      margin-top: .14em; padding-left: .08em; font-family: var(--editorial-font); font-style: italic;
+      font-size: clamp(40px, 6.5vw, 84px); font-weight: 400; line-height: .95; letter-spacing: -.045em;
+      color: rgba(238,233,223,.9);
+    }
+    .threshold .subtitle { margin: 34px 0 0; font-size: clamp(13px, 1.5vw, 18px); line-height: 1.4; letter-spacing: .04em; color: var(--bone-dim); }
+    .threshold .author { margin: 10px 0 0; font-family: var(--editorial-font); font-style: italic; font-size: 15px; color: rgba(238,233,223,.54); }
+    .enter-button {
+      position: relative; margin-top: 46px; padding: 12px 42px 12px 0; min-height: 44px; border: 0; background: transparent;
+      color: var(--bone); cursor: pointer; text-transform: lowercase; letter-spacing: .12em; font-size: 13px;
+    }
+    .enter-button::before { content: ""; position: absolute; left: 0; bottom: 3px; width: 116px; height: 1px; background: rgba(238,233,223,.28); transition: width .35s var(--ease), background .35s; }
+    .enter-button::after { content: ""; position: absolute; left: 105px; bottom: 0; width: 8px; height: 8px; border-top: 1px solid rgba(238,233,223,.55); border-right: 1px solid rgba(238,233,223,.55); transform: rotate(45deg); transition: left .35s var(--ease); }
+    .enter-button:hover::before { width: 152px; background: rgba(179,75,80,.72); }
+    .enter-button:hover::after { left: 141px; }
+
+    /* Work and black optical scenery */
+    .work { position: fixed; inset: 0; opacity: 0; pointer-events: none; transform: scale(.994); transition: opacity 1.6s var(--ease), transform 1.6s var(--ease); isolation: isolate; background: #000; }
+    .work.is-entered { opacity: 1; pointer-events: auto; transform: scale(1); }
+    .optical-field { position: fixed; inset: -12%; z-index: -8; overflow: hidden; pointer-events: none; background: #000; }
+    .optical-field::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(42vw 36vw at 15% 20%, rgba(255,255,255,.018), transparent 68%),
+        radial-gradient(55vw 52vw at 86% 70%, rgba(127,39,44,.045), transparent 72%),
+        radial-gradient(35vw 28vw at 60% 10%, rgba(128,138,181,.015), transparent 75%);
+    }
+    .black-membrane { position: absolute; border: 1px solid rgba(238,233,223,.035); background: radial-gradient(120% 90% at 25% 5%, rgba(255,255,255,.026), transparent 45%), rgba(2,2,2,.66); box-shadow: inset 0 1px 0 rgba(255,255,255,.015), 0 80px 200px rgba(0,0,0,.72); will-change: transform; }
+    .membrane-a { width: 74vw; height: 54vw; left: -31vw; top: -21vw; border-radius: 53% 47% 63% 37% / 44% 61% 39% 56%; transform: rotate(-12deg); animation: driftA 32s ease-in-out infinite alternate; }
+    .membrane-b { width: 66vw; height: 72vw; right: -37vw; bottom: -43vw; border-radius: 65% 35% 49% 51% / 39% 61% 39% 61%; transform: rotate(17deg); border-color: rgba(127,39,44,.045); animation: driftB 39s ease-in-out infinite alternate; }
+    .membrane-c { width: 36vw; height: 26vw; right: 18vw; top: -12vw; border-radius: 44% 56% 66% 34% / 55% 42% 58% 45%; transform: rotate(4deg); animation: driftC 27s ease-in-out infinite alternate; }
+    @keyframes driftA { to { transform: translate3d(16px,12px,0) rotate(-9deg); } }
+    @keyframes driftB { to { transform: translate3d(-13px,-17px,0) rotate(14deg); } }
+    @keyframes driftC { to { transform: translate3d(-8px,11px,0) rotate(2deg); } }
+
+    .global-utility {
+      position: fixed; z-index: 900; top: calc(18px + var(--safe-top)); right: calc(22px + var(--safe-right));
+      min-height: 44px; min-width: 44px; padding: 0 2px; border: 0; background: transparent; color: rgba(238,233,223,.52);
+      font-size: 12px; letter-spacing: .13em; cursor: pointer; text-transform: lowercase;
+    }
+    .global-utility:hover { color: var(--bone); }
+
+    .composition {
+      position: relative; width: min(1480px, 100%); height: 100%; margin: 0 auto; display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(290px, 34%); gap: clamp(14px, 2.1vw, 34px);
+      padding: clamp(18px, 2.8vw, 42px);
+      padding-top: max(clamp(28px, 3.8vw, 54px), calc(22px + var(--safe-top)));
+      padding-right: max(clamp(18px, 2.8vw, 42px), calc(18px + var(--safe-right)));
+      padding-bottom: max(clamp(18px, 2.8vw, 42px), calc(18px + var(--safe-bottom)));
+      padding-left: max(clamp(18px, 2.8vw, 42px), calc(18px + var(--safe-left)));
+    }
+
+    /* Messenger */
+    .messenger-wrap { position: relative; min-width: 0; min-height: 0; display: grid; place-items: center; }
+    .messenger {
+      position: relative; width: min(920px, 100%); height: min(850px, 100%); min-height: 590px; overflow: hidden;
+      display: grid; grid-template-rows: 66px minmax(0,1fr) 70px;
+      border: 1px solid rgba(238,233,223,.095); border-radius: 22px;
+      background: radial-gradient(85% 45% at 50% 0%, rgba(255,255,255,.014), transparent 65%), rgba(1,1,1,.965);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.024), 0 42px 140px rgba(0,0,0,.72);
+    }
+    .messenger-header { position: relative; z-index: 4; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-bottom: 1px solid rgba(238,233,223,.065); background: rgba(1,1,1,.82); }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(238,233,223,.12); background: radial-gradient(circle at 30% 24%, rgba(255,255,255,.08), rgba(255,255,255,.01)); font-family: var(--editorial-font); font-style: italic; font-size: 15px; color: rgba(238,233,223,.72); }
+    .contact-name { margin: 0; font-size: 15px; font-weight: 600; }
+    .contact-subtitle { margin: 3px 0 0; color: rgba(238,233,223,.28); font-size: 11px; letter-spacing: .04em; }
+
+    .conversation { position: relative; min-height: 0; overflow: hidden; padding: 34px clamp(18px, 4vw, 42px) 24px; background: radial-gradient(70% 62% at 58% 78%, rgba(127,39,44,.018), transparent 70%), linear-gradient(180deg, rgba(255,255,255,.003), transparent 16% 84%, rgba(255,255,255,.004)); }
+    .today { position: absolute; top: 13px; left: 50%; transform: translateX(-50%); color: rgba(238,233,223,.23); font-size: 10px; letter-spacing: .05em; }
+    .message-lane { position: absolute; right: clamp(20px, 5vw, 52px); bottom: 24px; width: min(390px, 64%); display: grid; justify-items: end; gap: 8px; z-index: 2; }
+    .outgoing-bubble { width: 100%; padding: 9px; border: 1px solid rgba(238,233,223,.1); border-radius: 16px 16px 5px 16px; background: rgba(10,10,10,.94); box-shadow: inset 0 1px 0 rgba(255,255,255,.018), 0 20px 55px rgba(0,0,0,.4); }
+    .attachment { position: relative; height: 196px; overflow: hidden; border: 1px solid rgba(238,233,223,.14); border-radius: 11px; background: rgba(238,233,223,.026); transition: height .78s var(--ease-heavy), opacity .64s var(--ease), margin .64s var(--ease), border-color .3s; }
+    .attachment-picture { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: .74; filter: saturate(.18) contrast(.75) brightness(1.14); transition: opacity .55s, filter .55s, transform .75s var(--ease); }
+    .upload-orbit { position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; transform: translate(-50%,-50%); border-radius: 50%; border: 1px solid rgba(3,3,3,.25); box-shadow: 0 0 0 1px rgba(255,255,255,.14), 0 0 30px rgba(255,255,255,.13); }
+    .upload-orbit::before { content: ""; position: absolute; inset: -1px; border-radius: 50%; border: 2px solid transparent; border-top-color: rgba(1,1,1,.78); border-right-color: rgba(1,1,1,.16); animation: orbit 1.25s linear infinite; }
+    .upload-orbit::after { content: ""; position: absolute; width: 4px; height: 4px; border-radius: 50%; left: 2px; top: 4px; background: rgba(1,1,1,.82); box-shadow: 0 0 10px rgba(1,1,1,.4); }
+    @keyframes orbit { to { transform: rotate(360deg); } }
+    .attachment-error { position: absolute; left: 14px; bottom: 12px; margin: 0; color: #652a2e; font-size: 12px; font-weight: 600; opacity: 0; transform: translateY(4px); transition: opacity .35s, transform .35s; }
+    .attachment-error.is-visible { opacity: 1; transform: none; }
+    .attachment.is-failing { border-color: rgba(127,39,44,.24); }
+    .attachment.is-failing .upload-orbit::before { animation-duration: 2.5s; border-top-color: rgba(127,39,44,.74); }
+    .attachment.is-disappearing { height: 0; opacity: 0; margin: -2px 0 0; border-color: transparent; }
+    .attachment.is-disappearing .attachment-picture { opacity: 0; filter: saturate(0) contrast(.4) brightness(1.35); transform: scale(.985); }
+
+    .message-text { margin: 10px 8px 5px; font-size: 14px; line-height: 1.42; color: var(--bone-bright); }
+    .message-status-row { min-height: 19px; display: flex; justify-content: flex-end; align-items: center; gap: 7px; padding: 0 4px 1px; }
+    .message-spinner { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(238,233,223,.16); position: relative; }
+    .message-spinner::after { content: ""; position: absolute; inset: -1px; border-radius: 50%; border: 1.5px solid transparent; border-top-color: rgba(238,233,223,.55); animation: messageSpin 1.42s linear infinite; }
+    @keyframes messageSpin { to { transform: rotate(360deg); } }
+    .outgoing-bubble.is-failed .message-spinner { border-color: rgba(127,39,44,.25); }
+    .outgoing-bubble.is-failed .message-spinner::after { animation: none; border-color: rgba(127,39,44,.55); border-left-color: transparent; transform: rotate(44deg); }
+    .message-failure { margin: 0 3px; color: rgba(191,106,100,.82); font-size: 12px; opacity: 0; transform: translateY(3px); transition: opacity .34s, transform .34s; }
+    .message-failure.is-visible { opacity: 1; transform: none; }
+    .message-retry { margin-top: 2px; }
+
+    .composer { position: relative; z-index: 4; display: grid; grid-template-columns: 40px minmax(0,1fr) 40px; gap: 10px; align-items: center; padding: 11px 16px; border-top: 1px solid rgba(238,233,223,.06); background: rgba(1,1,1,.88); }
+    .composer-symbol, .composer-field { height: 42px; border: 1px solid rgba(238,233,223,.07); background: rgba(255,255,255,.008); color: rgba(238,233,223,.2); }
+    .composer-symbol { border-radius: 50%; display: grid; place-items: center; }
+    .composer-symbol svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+    .composer-field { border-radius: 13px; padding: 0 15px; display: flex; align-items: center; font-size: 12px; }
+
+    /* Poem field — unframed inscription region */
+    .poem-field { position: relative; min-width: 0; min-height: 0; opacity: 0; overflow: hidden; background: transparent; transition: opacity .8s var(--ease); }
+    .poem-field.has-lines { opacity: 1; }
+    .poem-field::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, transparent 4%, rgba(238,233,223,.08) 18%, rgba(127,39,44,.3) 64%, transparent 96%); box-shadow: 0 0 18px rgba(127,39,44,.08); z-index: 4; pointer-events: none; }
+    .fault-register { position: absolute; left: -1px; top: 0; width: 4px; height: 100%; z-index: 5; opacity: 0; pointer-events: none; background: linear-gradient(180deg, transparent 8%, rgba(238,233,223,.08) 34%, rgba(179,75,80,.88) 58%, rgba(238,233,223,.06) 78%, transparent 94%); filter: blur(.3px); }
+    .fault-register.is-active { animation: registerFault 1.05s var(--ease); }
+    @keyframes registerFault { 0% { opacity: 0; transform: scaleY(.12); } 24% { opacity: .95; transform: scaleY(.86); } 62% { opacity: .5; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(1); } }
+    .blood-field { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .blood-bloom { position: absolute; width: 240px; height: 150px; border-radius: 50%; background: radial-gradient(ellipse, rgba(127,39,44,.12), rgba(127,39,44,.035) 45%, transparent 72%); filter: blur(18px); opacity: 0; transform: translate(-50%,-50%) scale(.25); animation: bloom 5.5s var(--ease-heavy) forwards; }
+    @keyframes bloom { 0% { opacity: 0; transform: translate(-50%,-50%) scale(.22); } 38% { opacity: .78; } 100% { opacity: .48; transform: translate(-50%,-50%) scale(1.35); } }
+    .poem-scroll { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: clamp(42px, 7vh, 74px) clamp(22px, 3vw, 50px) clamp(52px, 8vh, 84px); z-index: 2; scrollbar-width: thin; scrollbar-color: rgba(238,233,223,.22) transparent; }
+    .poem-scroll::-webkit-scrollbar { width: 7px; }
+    .poem-scroll::-webkit-scrollbar-track { background: transparent; }
+    .poem-scroll::-webkit-scrollbar-thumb { background: rgba(238,233,223,.2); border: 2px solid transparent; background-clip: padding-box; border-radius: 8px; }
+    .poem-lines { margin: 0; min-height: 100%; display: grid; align-content: end; gap: .62em; font-family: var(--ui-font); font-size: clamp(16px, 1.45vw, 19px); line-height: 1.38; letter-spacing: -.012em; color: var(--bone); }
+    .poem-line { margin: 0; opacity: .72; filter: blur(0); transform: translateY(0); transition: opacity 1.15s var(--ease), filter 1.15s var(--ease), transform 1.15s var(--ease); overflow-wrap: anywhere; }
+    .poem-line.is-entering { opacity: 0; filter: blur(4px); transform: translateY(8px); }
+    .poem-line.is-current { opacity: 1; }
+    .poem-line.cycle-breath { margin-bottom: .72em; }
+    .return-latest { position: absolute; right: 14px; bottom: 16px; z-index: 6; width: 38px; height: 38px; border: 0; border-radius: 50%; background: rgba(0,0,0,.72); box-shadow: inset 0 0 0 1px rgba(238,233,223,.12); color: var(--bone); cursor: pointer; }
+
+    /* Proliferating shell archive */
+    .interaction-shield { position: absolute; inset: 0; z-index: 19; background: rgba(0,0,0,.24); pointer-events: auto; opacity: 0; transition: opacity .28s; }
+    .interaction-shield.is-active { opacity: 1; }
+    .shell-stage { position: absolute; inset: 0; z-index: 20; pointer-events: none; overflow: hidden; }
+    .shell-stack { position: absolute; inset: 0; pointer-events: none; }
+    .system-shell {
+      position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); transform: translate(-50%,-50%) rotate(var(--rot));
+      pointer-events: none; overflow: hidden; border: 1px solid rgba(238,233,223,.16); border-radius: var(--r1) var(--r2) var(--r3) var(--r4);
+      background: linear-gradient(132deg, rgba(13,13,13,.985), rgba(2,2,2,.985));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 30px 90px rgba(0,0,0,.66);
+      transition: transform .62s var(--ease-heavy), opacity .5s, border-color .5s, filter .5s;
+    }
+    .system-shell::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(118deg, rgba(255,255,255,.035), transparent 19% 74%, rgba(127,39,44,.035)), radial-gradient(90% 120% at 94% 90%, rgba(127,39,44,.045), transparent 66%); }
+    .system-shell::after { content: ""; position: absolute; left: 0; top: 0; width: 36%; height: 1px; background: linear-gradient(90deg, rgba(179,75,80,.7), transparent); opacity: .72; }
+    .system-shell.active { z-index: 80; pointer-events: auto; }
+    .system-shell.is-entering { opacity: 0; transform: translate(-50%, calc(-50% + 14px)) rotate(var(--rot)) scale(.978); }
+    .system-shell.historical {
+      z-index: calc(60 - var(--age)); opacity: calc(.98 - var(--age) * .07); filter: brightness(calc(.92 - var(--age) * .045));
+      transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(calc(var(--rot) + var(--dr))) scale(var(--scale));
+      background: rgba(1,1,1,.97); border-color: rgba(238,233,223,calc(.14 - var(--age) * .009));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.016), 0 20px 62px rgba(0,0,0,.5);
+    }
+    .system-shell.historical .shell-content { display: none; }
+    .system-shell.historical::before { background: linear-gradient(135deg, rgba(255,255,255,.014), transparent 28%, rgba(127,39,44,.02)); }
+    .system-shell.historical::after { width: calc(22% + var(--age) * 3%); opacity: calc(.55 - var(--age) * .05); }
+
+    .shell-content { position: relative; z-index: 2; height: 100%; padding: clamp(20px, 2.5vw, 32px); display: grid; grid-template-columns: 7px minmax(0,1fr); grid-template-rows: 1fr auto; column-gap: clamp(16px, 2vw, 26px); row-gap: 18px; align-items: center; }
+    .shell-signal { grid-row: 1 / span 2; width: 7px; align-self: stretch; position: relative; }
+    .shell-signal::before { content: ""; position: absolute; left: 3px; top: 3px; bottom: 3px; width: 1px; background: linear-gradient(180deg, rgba(179,75,80,.82), rgba(127,39,44,.12) 68%, transparent); box-shadow: 0 0 14px rgba(179,75,80,.16); }
+    .shell-signal::after { content: ""; position: absolute; left: 1px; top: 20%; width: 5px; height: 5px; border-radius: 50%; background: var(--blood-bright); box-shadow: 0 0 13px rgba(179,75,80,.52); }
+    .system-shell.process .shell-signal::before { background: linear-gradient(180deg, rgba(238,233,223,.72), rgba(128,138,181,.2), transparent); }
+    .system-shell.process .shell-signal::after { background: var(--bone); animation: processNode 1.75s ease-in-out infinite; }
+    @keyframes processNode { 0%,100% { transform: translateY(0); opacity: .45; } 50% { transform: translateY(36px); opacity: 1; } }
+    .shell-title { margin: 0; max-width: 24ch; color: var(--bone-bright); font-family: var(--state-font); font-size: clamp(25px, 2.6vw, 33px); font-weight: 500; letter-spacing: -.028em; line-height: 1.04; text-wrap: balance; }
+    .shell-actions { grid-column: 2; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .shell-action {
+      position: relative; min-height: 44px; min-width: 94px; padding: 0 18px; border: 0; border-radius: 4px 13px 4px 4px;
+      background: linear-gradient(180deg, rgba(255,255,255,.032), rgba(255,255,255,.008));
+      box-shadow: inset 0 0 0 1px rgba(238,233,223,.18), inset 0 1px 0 rgba(255,255,255,.025);
+      color: var(--bone-bright); cursor: pointer; font-size: 13px; letter-spacing: .01em;
+      transition: transform .18s var(--ease), box-shadow .25s, background .25s;
+    }
+    .shell-action::before { content: ""; position: absolute; right: 5px; top: 5px; width: 9px; height: 1px; background: rgba(238,233,223,.24); transform: rotate(45deg); transform-origin: right; }
+    .shell-action:hover { transform: translateY(-1px); box-shadow: inset 0 0 0 1px rgba(238,233,223,.34), 0 10px 28px rgba(0,0,0,.3); }
+    .shell-action.primary { background: linear-gradient(180deg, rgba(127,39,44,.19), rgba(127,39,44,.07)); box-shadow: inset 0 0 0 1px rgba(179,75,80,.43), 0 0 0 0 rgba(179,75,80,0); }
+    .shell-action.retry-call { animation: retryCall 2.65s ease-in-out infinite; }
+    .shell-action.retry-call::after { content: ""; position: absolute; inset: -5px; border: 1px solid rgba(179,75,80,.28); border-radius: 7px 16px 7px 7px; opacity: 0; animation: retryHalo 2.65s ease-out infinite; pointer-events: none; }
+    @keyframes retryCall { 0%,100% { transform: scale(1); box-shadow: inset 0 0 0 1px rgba(179,75,80,.4), 0 0 0 0 rgba(179,75,80,0); } 50% { transform: scale(1.025); box-shadow: inset 0 0 0 1px rgba(179,75,80,.72), 0 0 28px rgba(127,39,44,.16); } }
+    @keyframes retryHalo { 0%,35% { opacity: 0; transform: scale(.96); } 56% { opacity: .45; } 100% { opacity: 0; transform: scale(1.09); } }
+
+    /* Editorial About overlay */
+    .about-page { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #000; color: var(--bone); }
+    .about-page::backdrop { background: #000; }
+    .about-layout { position: relative; min-height: 100%; display: grid; grid-template-columns: minmax(0, .72fr) minmax(320px, 1.28fr); gap: clamp(34px, 7vw, 100px); padding: max(42px, calc(24px + var(--safe-top))) max(30px, calc(24px + var(--safe-right))) max(42px, calc(24px + var(--safe-bottom))) max(30px, calc(24px + var(--safe-left))); align-content: center; }
+    .about-layout::before { content: ""; position: absolute; left: 42%; top: 8%; bottom: 8%; width: 1px; background: linear-gradient(180deg, transparent, rgba(238,233,223,.08) 16%, rgba(127,39,44,.4) 68%, transparent); }
+    .about-index { align-self: start; padding-top: 6vh; }
+    .about-index h2 { margin: 0; font-family: var(--display-font); font-size: clamp(42px, 6vw, 82px); font-weight: 300; line-height: .9; letter-spacing: -.055em; }
+    .about-index .about-author { margin: 24px 0 0; font-family: var(--editorial-font); font-style: italic; color: rgba(238,233,223,.58); }
+    .about-copy { max-width: 720px; align-self: center; padding-left: clamp(0px, 4vw, 56px); }
+    .about-copy p { margin: 0 0 24px; font-family: var(--editorial-font); font-size: clamp(18px, 2vw, 25px); line-height: 1.55; color: rgba(238,233,223,.86); }
+    .about-copy .meta { margin-top: 42px; font-family: var(--ui-font); font-size: 12px; line-height: 1.65; letter-spacing: .05em; color: rgba(238,233,223,.38); }
+    .about-return { position: absolute; top: max(20px, calc(12px + var(--safe-top))); right: max(24px, calc(16px + var(--safe-right))); min-height: 44px; border: 0; background: transparent; color: rgba(238,233,223,.7); cursor: pointer; letter-spacing: .12em; font-size: 12px; text-transform: lowercase; }
+    .about-actions { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 36px; }
+    .about-action { min-height: 44px; padding: 0; border: 0; border-bottom: 1px solid rgba(238,233,223,.24); background: transparent; color: rgba(238,233,223,.72); cursor: pointer; font-size: 12px; letter-spacing: .08em; text-transform: lowercase; }
+    .about-action:hover { color: var(--bone); border-bottom-color: var(--blood-bright); }
+
+    .print-record { display: none; }
+
+    @media (max-width: 1040px) and (min-width: 761px) {
+      .composition { grid-template-columns: minmax(0,1fr) 286px; gap: 15px; padding-left: 16px; padding-right: 16px; }
+      .shell-title { font-size: clamp(25px, 3vw, 32px); }
+      .message-lane { width: min(370px, 69%); }
+    }
+
+    @media (max-width: 760px) {
+      .threshold-inner { width: 100%; min-height: 72vh; column-gap: 24px; }
+      .threshold-axis { min-height: 340px; }
+      .threshold .title-unhappy { font-size: clamp(52px, 17vw, 88px); }
+      .threshold .title-scenario { font-size: clamp(38px, 12vw, 62px); }
+      .global-utility { top: calc(7px + var(--safe-top)); right: calc(12px + var(--safe-right)); }
+      .composition { width: 100%; height: 100%; padding: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0,1fr) var(--poem-height); gap: 0; }
+      .messenger-wrap { min-height: 0; display: block; }
+      .messenger { width: 100%; height: 100%; min-height: 0; border: 0; border-radius: 0; grid-template-rows: calc(61px + var(--safe-top)) minmax(0,1fr) calc(64px + var(--safe-bottom)); }
+      .messenger-header { padding: var(--safe-top) 15px 0; }
+      .conversation { padding: 28px 15px 20px; }
+      .message-lane { right: 15px; bottom: 18px; width: min(410px, 84%); }
+      .attachment { height: min(186px, 27vh); }
+      .composer { padding: 10px 11px var(--safe-bottom); grid-template-columns: 40px minmax(0,1fr) 40px; }
+
+      .poem-field { position: relative; width: 100%; height: var(--poem-height); min-height: 0; background: #000; }
+      .poem-field::before { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 1px; background: linear-gradient(90deg, transparent, rgba(238,233,223,.08) 16%, rgba(127,39,44,.36) 58%, rgba(238,233,223,.06) 86%, transparent); box-shadow: 0 0 18px rgba(127,39,44,.13); }
+      .fault-register { left: 0; top: -1px; width: 100%; height: 4px; background: linear-gradient(90deg, transparent 6%, rgba(238,233,223,.08) 31%, rgba(179,75,80,.9) 58%, rgba(238,233,223,.05) 82%, transparent 96%); }
+      @keyframes registerFault { 0% { opacity: 0; transform: scaleX(.12); } 24% { opacity: .95; transform: scaleX(.86); } 62% { opacity: .48; transform: scaleX(1); } 100% { opacity: 0; transform: scaleX(1); } }
+      .poem-scroll { padding: 25px 19px calc(27px + var(--safe-bottom)); scrollbar-width: none; }
+      .poem-scroll::-webkit-scrollbar { display: none; }
+      .poem-lines { font-size: 16px; line-height: 1.4; gap: .58em; }
+      .poem-fault { position: absolute; z-index: 8; left: 0; right: 0; top: -22px; height: 44px; border: 0; background: transparent; cursor: ns-resize; }
+      .return-latest { right: 12px; bottom: calc(10px + var(--safe-bottom)); }
+
+      .shell-title { font-size: clamp(24px, 7.4vw, 31px); max-width: 20ch; }
+      .shell-content { padding: 20px 18px; column-gap: 15px; row-gap: 15px; }
+      .shell-action { min-height: 44px; min-width: 88px; padding: 0 15px; }
+
+      .about-layout { grid-template-columns: 1fr; gap: 28px; padding: max(70px, calc(56px + var(--safe-top))) 24px max(36px, calc(24px + var(--safe-bottom))); overflow-y: auto; align-content: start; }
+      .about-layout::before { left: 24px; top: 56px; bottom: auto; width: 70%; height: 1px; }
+      .about-index { padding-top: 22px; }
+      .about-index h2 { font-size: clamp(44px, 14vw, 70px); }
+      .about-copy { padding-left: 0; }
+      .about-copy p { font-size: 18px; line-height: 1.55; }
+    }
+
+    @media (max-width: 390px) {
+      .threshold-inner { grid-template-columns: 2px minmax(0,1fr); column-gap: 18px; }
+      .threshold .subtitle { margin-top: 26px; }
+      .message-lane { width: 88%; }
+      .shell-title { font-size: clamp(23px, 7.4vw, 29px); }
+      .shell-content { padding: 18px 16px; }
+    }
+
+    @media (max-height: 650px) and (min-width: 761px) {
+      .composition { padding-top: 16px; padding-bottom: 16px; }
+      .messenger { min-height: 0; }
+      .shell-title { font-size: clamp(24px, 2.7vw, 31px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .001ms !important; }
+      .upload-orbit::before, .message-spinner::after { border-right-color: rgba(238,233,223,.35); }
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+      .system-shell, .messenger { background: #050505 !important; }
+      .black-membrane { opacity: .25; }
+    }
+
+    @media (forced-colors: active) {
+      .optical-field, .black-membrane, .threshold::before, .threshold::after, .blood-field { display: none; }
+      .messenger, .system-shell, .poem-field, .about-page, .outgoing-bubble, .attachment { background: Canvas !important; color: CanvasText !important; border-color: CanvasText !important; }
+      .shell-action, .about-action, .enter-button, .global-utility { color: LinkText !important; }
+    }
+
+    @media print {
+      body { overflow: visible; background: #fff; color: #111; }
+      .threshold, .work, .about-page, .visually-hidden { display: none !important; }
+      .print-record { display: block; padding: 32px; font-family: Arial, sans-serif; }
+      .print-record h1 { margin-bottom: 4px; }
+      .print-record h2 { margin-top: 0; font-weight: 400; font-size: 18px; }
+      .print-record p { margin: 0 0 8px; }
+    }
+  </style>
+
+  <style id="v240-layout-overrides">
+    /* v2.4.0 — proportion, collision and mobile affordance correction */
+    .composition {
+      width: min(1540px, 100%);
+      grid-template-columns: minmax(0, 1fr) clamp(300px, 28vw, 390px);
+      gap: clamp(22px, 3vw, 48px);
+      padding-left: max(clamp(24px, 3vw, 48px), calc(20px + var(--safe-left)));
+      padding-right: max(clamp(24px, 3vw, 48px), calc(20px + var(--safe-right)));
+    }
+    .messenger { width: min(940px, 100%); height: min(820px, calc(100vh - 84px)); }
+    .conversation { overflow: hidden; }
+    .shell-stage {
+      top: clamp(16px, 2.3vh, 28px);
+      right: clamp(22px, 2.8vw, 36px);
+      bottom: clamp(148px, 19vh, 188px);
+      left: clamp(22px, 2.8vw, 36px);
+      overflow: visible;
+    }
+    .system-shell { max-width: 620px; max-height: 320px; }
+    .system-shell.connection, .system-shell.renewed { max-width: 520px; min-height: 156px; max-height: 205px; }
+    .system-shell.reconnecting, .system-shell.reporting { max-width: 450px; min-height: 142px; max-height: 185px; }
+    .system-shell.failed { max-width: 300px; min-height: 108px; max-height: 145px; }
+    .system-shell.question { max-width: 570px; min-height: 188px; max-height: 240px; }
+    .system-shell.report-failed { max-width: 370px; min-height: 124px; max-height: 160px; }
+    .system-shell.historical {
+      opacity: calc(.88 - var(--age) * .09);
+      filter: brightness(calc(.94 - var(--age) * .038));
+      border-color: rgba(238,233,223,calc(.18 - var(--age) * .015));
+      background: rgba(0,0,0,.985);
+    }
+    .shell-content { padding: clamp(18px, 2.2vw, 27px); column-gap: clamp(14px, 1.7vw, 21px); row-gap: 14px; }
+    .shell-title { font-size: clamp(23px, 2.2vw, 30px); line-height: 1.06; max-width: 23ch; }
+    .system-shell.question .shell-title { font-size: clamp(22px, 2.05vw, 29px); max-width: 21ch; }
+    .shell-actions { gap: 9px; }
+    .shell-action { min-height: 44px; min-width: 88px; padding: 0 16px; }
+    .message-lane { bottom: 16px; }
+
+    @media (max-width: 1180px) and (min-width: 761px) {
+      .composition {
+        grid-template-columns: minmax(0, 1fr) clamp(250px, 28vw, 300px);
+        gap: 18px;
+        padding: 18px;
+        padding-top: max(26px, calc(18px + var(--safe-top)));
+      }
+      .messenger { height: min(780px, calc(100vh - 52px)); }
+      .shell-stage { left: 20px; right: 20px; bottom: 156px; }
+      .system-shell.question { max-width: 500px; }
+      .shell-title { font-size: clamp(22px, 2.65vw, 28px); }
+      .poem-scroll { padding-left: 26px; padding-right: 24px; }
+      .poem-lines { font-size: 16px; }
+    }
+
+    @media (max-width: 760px) {
+      .composition { padding: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0,1fr) var(--poem-height); gap: 0; }
+      .messenger { height: 100%; }
+      .shell-stage { top: 12px; right: 14px; bottom: 112px; left: 14px; overflow: visible; }
+      .system-shell { max-width: 92%; max-height: 260px; }
+      .system-shell.connection, .system-shell.renewed { max-width: 92%; min-height: 150px; max-height: 190px; }
+      .system-shell.reconnecting, .system-shell.reporting { max-width: 88%; min-height: 138px; max-height: 178px; }
+      .system-shell.failed { max-width: 76%; min-height: 106px; max-height: 138px; }
+      .system-shell.question { max-width: 92%; min-height: 180px; max-height: 220px; }
+      .system-shell.report-failed { max-width: 82%; min-height: 122px; max-height: 150px; }
+      .shell-title { font-size: clamp(21px, 6.4vw, 28px); line-height: 1.07; }
+      .system-shell.question .shell-title { font-size: clamp(20px, 6vw, 27px); }
+      .shell-content { padding: 17px 16px; column-gap: 13px; row-gap: 12px; }
+      .shell-action { min-height: 44px; min-width: 84px; padding: 0 14px; }
+
+      .poem-field { overflow: visible; z-index: 30; }
+      .poem-scroll, .blood-field { overflow: hidden auto; }
+      .poem-fault { top: -24px; height: 48px; cursor: ns-resize; touch-action: none; z-index: 40; }
+      .poem-fault-latch {
+        position: absolute; left: 50%; top: 50%; width: 62px; height: 30px;
+        transform: translate(-50%,-50%); display: grid; place-items: center;
+        clip-path: polygon(10% 50%, 24% 10%, 76% 10%, 90% 50%, 76% 90%, 24% 90%);
+        background: linear-gradient(180deg, rgba(8,3,4,.98), rgba(0,0,0,.98));
+        box-shadow: inset 0 0 0 1px rgba(179,75,80,.34), inset 0 1px 0 rgba(238,233,223,.08);
+        filter: drop-shadow(0 0 12px rgba(179,75,80,.28));
+        animation: faultLatchBreath 3.2s ease-in-out infinite;
+      }
+      .poem-fault-latch svg { width: 50px; height: 28px; overflow: visible; }
+      .fault-arrow { fill: none; stroke: rgba(238,233,223,.62); stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; transition: opacity .28s, stroke .28s, transform .28s; transform-origin: 24px 14px; }
+      .fault-node { fill: var(--blood-bright); filter: drop-shadow(0 0 7px rgba(179,75,80,1)); }
+      .poem-field[data-snap="compact"] .fault-arrow-up { opacity: 1; stroke: rgba(238,233,223,.76); transform: translateY(-1px); }
+      .poem-field[data-snap="compact"] .fault-arrow-down { opacity: .18; }
+      .poem-field[data-snap="reading"] .fault-arrow-up,
+      .poem-field[data-snap="expanded"] .fault-arrow-up { opacity: .18; }
+      .poem-field[data-snap="reading"] .fault-arrow-down,
+      .poem-field[data-snap="expanded"] .fault-arrow-down { opacity: 1; stroke: rgba(238,233,223,.76); transform: translateY(1px); }
+      .poem-fault:hover .fault-arrow, .poem-fault:focus-visible .fault-arrow { stroke: var(--bone-bright); }
+      @keyframes faultLatchBreath {
+        0%,100% { opacity: .72; transform: translate(-50%,-50%) scale(.96); }
+        50% { opacity: 1; transform: translate(-50%,-50%) scale(1.03); }
+      }
+      .poem-scroll { padding-top: 30px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .poem-fault-latch { animation: none !important; }
+    }
+  </style>
+
+</head>
+<body>
+  <noscript>
+    <div class="noscript">
+      <h1>UNHAPPY Scenario</h1>
+      <p>An Internet Blackout Poem</p>
+      <p>Upload failed<br>Sending the message failed<br>Connection attempt failed<br>Reconnecting…<br>Failed<br>Do you want to report the problem?<br>Reporting the problem…<br>Reporting failed</p>
+      <p>by mozare · Mohammad Zare · 2026</p>
+    </div>
+  </noscript>
+
+  <section class="threshold" id="threshold" aria-labelledby="threshold-title">
+    <div class="threshold-inner">
+      <div class="threshold-axis" aria-hidden="true"></div>
+      <div class="threshold-copy">
+        <h1 id="threshold-title"><span class="title-unhappy">UNHAPPY</span><span class="title-scenario">Scenario</span></h1>
+        <p class="subtitle">An Internet Blackout Poem</p>
+        <p class="author">by mozare</p>
+        <button class="enter-button" id="enter-button" type="button">enter</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="work" id="work" inert>
+    <div class="optical-field" aria-hidden="true">
+      <div class="black-membrane membrane-a"></div>
+      <div class="black-membrane membrane-b"></div>
+      <div class="black-membrane membrane-c"></div>
+    </div>
+
+    <button class="global-utility" id="about-trigger" type="button">about</button>
+
+    <div class="composition">
+      <section class="messenger-wrap" aria-label="Messenger scene">
+        <article class="messenger" id="messenger">
+          <header class="messenger-header" id="messenger-header">
+            <div class="avatar" aria-hidden="true">N.</div>
+            <div>
+              <p class="contact-name">N.</p>
+              <p class="contact-subtitle">conversation</p>
+            </div>
+          </header>
+
+          <section class="conversation" id="conversation" aria-label="Conversation with N.">
+            <span class="today">Today</span>
+            <div class="message-lane" id="message-lane">
+              <article class="outgoing-bubble" id="outgoing-bubble" aria-label="Outgoing message">
+                <div class="attachment" id="attachment" aria-label="Image attachment, attempting to upload">
+                  <svg class="attachment-picture" viewBox="0 0 640 400" role="img" aria-label="A very pale image attachment" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                      <linearGradient id="pale-sky" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#fafaf7"/>
+                        <stop offset=".56" stop-color="#e9e9e4"/>
+                        <stop offset=".57" stop-color="#cfcfcb"/>
+                        <stop offset="1" stop-color="#efefea"/>
+                      </linearGradient>
+                      <radialGradient id="pale-light" cx="70%" cy="17%" r="65%">
+                        <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+                        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+                      </radialGradient>
+                    </defs>
+                    <rect width="640" height="400" fill="url(#pale-sky)"/>
+                    <rect width="640" height="400" fill="url(#pale-light)"/>
+                    <path d="M0 230 C140 214 270 236 408 224 C502 216 565 205 640 210 L640 400 L0 400 Z" fill="#dadad5" fill-opacity=".34"/>
+                    <path d="M340 400 C362 338 401 302 458 282 C501 267 548 269 600 290 L640 306 L640 400 Z" fill="#bfc0bc" fill-opacity=".18"/>
+                    <path d="M25 228 C178 223 317 230 458 221 C532 216 589 211 640 212" stroke="#777b7a" stroke-opacity=".18" stroke-width="1" fill="none"/>
+                  </svg>
+                  <div class="upload-orbit" aria-hidden="true"></div>
+                  <p class="attachment-error" id="attachment-error">Upload failed</p>
+                </div>
+                <p class="message-text">Here it is.</p>
+                <div class="message-status-row" aria-label="Message sending"><div class="message-spinner" aria-hidden="true"></div></div>
+              </article>
+              <p class="message-failure" id="message-failure">Sending the message failed</p>
+              <button class="shell-action primary retry-call message-retry" id="message-retry" type="button" hidden>Try again</button>
+            </div>
+
+            <div class="interaction-shield" id="interaction-shield" hidden aria-hidden="true"></div>
+            <div class="shell-stage" id="shell-stage" hidden>
+              <div class="shell-stack" id="shell-stack"></div>
+            </div>
+          </section>
+
+          <footer class="composer" id="composer" aria-hidden="true">
+            <div class="composer-symbol"><svg viewBox="0 0 24 24"><path d="M8.5 12.5l5.8-5.8a3.3 3.3 0 014.7 4.7l-7.1 7.1a5.2 5.2 0 01-7.4-7.4l7-7"/></svg></div>
+            <div class="composer-field">Message</div>
+            <div class="composer-symbol"><svg viewBox="0 0 24 24"><path d="M6 18L18 6M9 6h9v9"/></svg></div>
+          </footer>
+        </article>
+      </section>
+
+      <aside class="poem-field" id="poem-field" aria-labelledby="poem-heading">
+        <h2 class="visually-hidden" id="poem-heading">Accumulated poem</h2>
+        <button class="poem-fault" id="poem-fault" type="button" aria-label="Expand poem reading area" aria-expanded="false" hidden>
+          <span class="poem-fault-latch" aria-hidden="true">
+            <svg viewBox="0 0 48 28" focusable="false">
+              <path class="fault-arrow fault-arrow-up" d="M17 11 L24 5 L31 11"/>
+              <circle class="fault-node" cx="24" cy="14" r="2.2"/>
+              <path class="fault-arrow fault-arrow-down" d="M17 17 L24 23 L31 17"/>
+            </svg>
+          </span>
+        </button>
+        <div class="fault-register" id="fault-register" aria-hidden="true"></div>
+        <div class="blood-field" id="blood-field" aria-hidden="true"></div>
+        <div class="poem-scroll" id="poem-scroll" tabindex="0" aria-label="Poem text">
+          <div class="poem-lines" id="poem-lines"></div>
+        </div>
+        <button class="return-latest" id="return-latest" type="button" aria-label="Return to latest line" hidden>↓</button>
+      </aside>
+    </div>
+  </main>
+
+  <dialog class="about-page" id="about-page" aria-labelledby="about-title">
+    <div class="about-layout">
+      <button class="about-return" id="about-return" type="button">return</button>
+      <header class="about-index">
+        <h2 id="about-title">UNHAPPY<br>Scenario</h2>
+        <p class="about-author">by mozare</p>
+      </header>
+      <section class="about-copy">
+        <p>Software calls the route away from success an unhappy scenario. The phrase makes interruption sound manageable: a branch to be anticipated, named, and recovered from.</p>
+        <p><strong>UNHAPPY Scenario</strong> stays with that calm language after recovery has ceased to be credible. Drawn from the small notices through which systems explain failure and promise return, the poem carries their familiar English into the memory of repeated internet blackouts in Iran. What begins as technical inconvenience becomes a vocabulary for isolation, deferred contact, and an accountability that cannot be reached.</p>
+        <p class="meta">English edition · v2.4.0 · 2026<br>Mohammad Zare<br>No file, message, or report is transmitted. No analytics or persistent storage is used.</p>
+        <div class="about-actions">
+          <button class="about-action" id="about-restart" type="button">restart encounter</button>
+          <button class="about-action" id="about-title-return" type="button">return to title</button>
+        </div>
+      </section>
+    </div>
+  </dialog>
+
+  <div class="print-record" aria-hidden="true">
+    <h1>UNHAPPY Scenario</h1><h2>An Internet Blackout Poem</h2>
+    <p>Upload failed</p><p>Sending the message failed</p><p>Connection attempt failed</p><p>Reconnecting…</p><p>Failed</p><p>Do you want to report the problem?</p><p>Reporting the problem…</p><p>Reporting failed</p>
+    <p>by mozare · Mohammad Zare · 2026</p>
+  </div>
+
+  <div class="visually-hidden" id="live-status" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+  (() => {
+    'use strict';
+
+    const SYSTEM_LINES = Object.freeze([
+      'Upload failed',
+      'Sending the message failed',
+      'Connection attempt failed',
+      'Reconnecting…',
+      'Failed',
+      'Do you want to report the problem?',
+      'Reporting the problem…',
+      'Reporting failed'
+    ]);
+
+    const $ = id => document.getElementById(id);
+    const threshold = $('threshold');
+    const enterButton = $('enter-button');
+    const work = $('work');
+    const messenger = $('messenger');
+    const messengerHeader = $('messenger-header');
+    const conversation = $('conversation');
+    const composer = $('composer');
+    const messageLane = $('message-lane');
+    const attachment = $('attachment');
+    const attachmentError = $('attachment-error');
+    const outgoingBubble = $('outgoing-bubble');
+    const messageFailure = $('message-failure');
+    const messageRetry = $('message-retry');
+    const interactionShield = $('interaction-shield');
+    const shellStage = $('shell-stage');
+    const shellStack = $('shell-stack');
+    const poemField = $('poem-field');
+    const poemFault = $('poem-fault');
+    const poemScroll = $('poem-scroll');
+    const poemLines = $('poem-lines');
+    const faultRegister = $('fault-register');
+    const bloodField = $('blood-field');
+    const returnLatest = $('return-latest');
+    const aboutTrigger = $('about-trigger');
+    const aboutPage = $('about-page');
+    const aboutReturn = $('about-return');
+    const aboutRestart = $('about-restart');
+    const aboutTitleReturn = $('about-title-return');
+    const liveStatus = $('live-status');
+
+    const timeScale = Number.isFinite(Number(window.__UNHAPPY_TIME_SCALE__)) ? Math.max(0, Number(window.__UNHAPPY_TIME_SCALE__)) : 1;
+    const testMode = Boolean(window.__UNHAPPY_TEST_MODE__);
+    const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = () => matchMedia('(max-width: 760px)').matches;
+
+    let entered = false;
+    let runToken = 0;
+    let cycleId = 0;
+    let phase = 'threshold';
+    let activeShell = null;
+    let shells = [];
+    let shellGeneration = 0;
+    let pendingActionResolve = null;
+    let utilityPaused = false;
+    let poemQueue = Promise.resolve();
+    let poemRecords = [];
+    let autoFollow = true;
+    let programmaticFollow = false;
+    let followTimer = 0;
+    let poemSnap = 'compact';
+    let dragState = null;
+
+    async function wait(ms) {
+      let remaining = Math.max(0, ms * timeScale);
+      if (!remaining) return;
+      let last = performance.now();
+      while (remaining > 0) {
+        await new Promise(resolve => setTimeout(resolve, Math.min(50, remaining)));
+        const now = performance.now();
+        if (!utilityPaused && !document.hidden) remaining -= now - last;
+        last = now;
+      }
+    }
+
+    function currentRun(token) { if (token !== runToken) throw new Error('RUN_CANCELLED'); }
+    function setPhase(next) { phase = next; document.body.dataset.phase = next; }
+    function announce(text) { liveStatus.textContent = ''; requestAnimationFrame(() => { liveStatus.textContent = text; }); }
+    function nearBottom(el, tolerance = 42) { return el.scrollHeight - el.scrollTop - el.clientHeight <= tolerance; }
+    function updateReturnLatest() { returnLatest.hidden = autoFollow || nearBottom(poemScroll, 24); }
+    function scrollPoemToLatest(behavior = 'smooth') {
+      autoFollow = true;
+      programmaticFollow = true;
+      clearTimeout(followTimer);
+      poemScroll.scrollTo({ top: poemScroll.scrollHeight, behavior: reducedMotion() ? 'auto' : behavior });
+      updateReturnLatest();
+      followTimer = setTimeout(() => {
+        if (!nearBottom(poemScroll, 80)) poemScroll.scrollTop = poemScroll.scrollHeight;
+        programmaticFollow = false;
+        autoFollow = true;
+        updateReturnLatest();
+      }, reducedMotion() || behavior === 'auto' ? 0 : 950);
+    }
+    poemScroll.addEventListener('scroll', () => {
+      if (programmaticFollow) return;
+      autoFollow = nearBottom(poemScroll, 50);
+      updateReturnLatest();
+    }, { passive: true });
+    returnLatest.addEventListener('click', () => scrollPoemToLatest());
+
+    function openPoemFieldIfNeeded() {
+      if (!poemRecords.length) return;
+      poemField.classList.add('has-lines');
+      if (isMobile() && poemFault.hidden) { poemFault.hidden = false; setMobilePoemHeight('compact', false); }
+    }
+
+    function setMobilePoemHeight(snap, animate = true) {
+      poemSnap = snap;
+      const vh = window.innerHeight;
+      const compact = Math.max(126, Math.min(150, Math.round(vh * .19)));
+      let height = compact;
+      if (snap === 'reading') height = Math.round(vh * .42);
+      if (snap === 'expanded') height = Math.round(vh * .8);
+      document.documentElement.style.setProperty('--poem-height', `${height}px`);
+      poemField.dataset.snap = snap;
+      poemFault.setAttribute('aria-expanded', String(snap !== 'compact'));
+      poemFault.setAttribute('aria-label', snap === 'compact' ? 'Expand poem reading area' : 'Collapse poem reading area');
+      if (!animate || reducedMotion()) poemField.style.transitionDuration = '0ms'; else poemField.style.transitionDuration = '';
+      requestAnimationFrame(() => { poemField.style.transitionDuration = ''; if (autoFollow) scrollPoemToLatest('auto'); });
+    }
+
+    poemFault.addEventListener('click', () => {
+      if (dragState?.moved) return;
+      setMobilePoemHeight(poemSnap === 'compact' ? 'reading' : 'compact');
+    });
+    poemFault.addEventListener('pointerdown', event => {
+      if (!isMobile()) return;
+      dragState = { id: event.pointerId, startY: event.clientY, startH: poemField.getBoundingClientRect().height, moved: false };
+      poemFault.setPointerCapture(event.pointerId);
+    });
+    poemFault.addEventListener('pointermove', event => {
+      if (!dragState || dragState.id !== event.pointerId) return;
+      const delta = dragState.startY - event.clientY;
+      if (Math.abs(delta) > 5) dragState.moved = true;
+      const next = Math.max(120, Math.min(window.innerHeight * .86, dragState.startH + delta));
+      document.documentElement.style.setProperty('--poem-height', `${Math.round(next)}px`);
+    });
+    poemFault.addEventListener('pointerup', event => {
+      if (!dragState || dragState.id !== event.pointerId) return;
+      const ratio = poemField.getBoundingClientRect().height / window.innerHeight;
+      const next = ratio < .28 ? 'compact' : ratio < .62 ? 'reading' : 'expanded';
+      const moved = dragState.moved;
+      dragState = null;
+      if (moved) setMobilePoemHeight(next);
+    });
+
+    function triggerRegister() {
+      faultRegister.classList.remove('is-active');
+      void faultRegister.offsetWidth;
+      faultRegister.classList.add('is-active');
+    }
+
+    function createBloodBloom(index, line) {
+      const bloom = document.createElement('span');
+      bloom.className = 'blood-bloom';
+      const rect = line.getBoundingClientRect();
+      const host = poemField.getBoundingClientRect();
+      const x = 30 + ((index * 37) % 54);
+      const y = Math.max(12, Math.min(88, ((rect.top - host.top + rect.height / 2) / Math.max(1, host.height)) * 100));
+      bloom.style.left = `${x}%`;
+      bloom.style.top = `${y}%`;
+      bloom.style.animationDelay = `${Math.min(500, index * 23)}ms`;
+      bloodField.append(bloom);
+      while (bloodField.children.length > 36) bloodField.firstElementChild.remove();
+    }
+
+    async function inscribeLine(text, { delay = 1150, cycleBreath = false, immediate = false, token = runToken } = {}) {
+      if (!SYSTEM_LINES.includes(text)) throw new Error(`Unapproved poem line: ${text}`);
+      if (!immediate) await wait(delay);
+      currentRun(token);
+      triggerRegister();
+      if (!immediate) await wait(340);
+      currentRun(token);
+
+      const record = { id: crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`, text, cycleId, createdAt: performance.now() };
+      poemRecords.push(record);
+      const line = document.createElement('p');
+      line.className = 'poem-line is-entering is-current';
+      if (cycleBreath) line.classList.add('cycle-breath');
+      line.textContent = text;
+      poemLines.querySelectorAll('.poem-line.is-current').forEach(node => node.classList.remove('is-current'));
+      poemLines.append(line);
+      openPoemFieldIfNeeded();
+      if (autoFollow) scrollPoemToLatest('auto');
+      requestAnimationFrame(() => requestAnimationFrame(() => line.classList.remove('is-entering')));
+      createBloodBloom(poemRecords.length - 1, line);
+      if (!immediate) await wait(1150);
+      if (autoFollow) scrollPoemToLatest('smooth');
+      return line;
+    }
+
+    function queueSystemLine(text, options = {}) {
+      announce(text);
+      const token = runToken;
+      poemQueue = poemQueue.then(() => inscribeLine(text, { ...options, token })).catch(error => {
+        if (error?.message !== 'RUN_CANCELLED') console.error(error);
+      });
+      return poemQueue;
+    }
+
+    function setShellInteractivity(active) {
+      interactionShield.hidden = !active;
+      shellStage.hidden = !active;
+      interactionShield.classList.toggle('is-active', active);
+      messageLane.toggleAttribute('inert', active);
+      messengerHeader.toggleAttribute('inert', active);
+      composer.toggleAttribute('inert', active);
+    }
+
+    function resolveAction(value) {
+      if (!pendingActionResolve) return false;
+      const resolve = pendingActionResolve;
+      pendingActionResolve = null;
+      resolve(value);
+      return true;
+    }
+    function waitForAction() { return new Promise(resolve => { pendingActionResolve = resolve; }); }
+
+    const SHELL_GEOMETRY = Object.freeze({
+      connection: { x: 48, y: 60, w: 58, h: 40, r: [8,15,8,8], rot: -0.12 },
+      renewed: { x: 46, y: 59, w: 56, h: 38, r: [9,8,16,8], rot: 0.12 },
+      reconnecting: { x: 53, y: 47, w: 50, h: 35, r: [8,8,15,8], rot: 0.08 },
+      failed: { x: 50, y: 52, w: 34, h: 29, r: [7,12,7,7], rot: -0.08 },
+      question: { x: 50, y: 49, w: 70, h: 52, r: [10,8,16,8], rot: 0.06 },
+      reporting: { x: 54, y: 49, w: 50, h: 36, r: [8,14,8,8], rot: -0.08 },
+      'report-failed': { x: 53, y: 53, w: 41, h: 31, r: [8,8,13,8], rot: 0.1 }
+    });
+
+    function geometryFor(type, generation) {
+      const desktop = SHELL_GEOMETRY[type] || SHELL_GEOMETRY.connection;
+      const mobileMap = {
+        connection: { x: 50, y: 58, w: 88, h: 40, r: [8,14,8,8], rot: -.08 },
+        renewed: { x: 50, y: 57, w: 88, h: 38, r: [9,8,15,8], rot: .08 },
+        reconnecting: { x: 51, y: 48, w: 84, h: 36, r: [8,8,14,8], rot: .06 },
+        failed: { x: 50, y: 52, w: 72, h: 30, r: [7,11,7,7], rot: -.05 },
+        question: { x: 50, y: 48, w: 90, h: 48, r: [9,8,15,8], rot: .04 },
+        reporting: { x: 51, y: 49, w: 84, h: 37, r: [8,13,8,8], rot: -.06 },
+        'report-failed': { x: 50, y: 53, w: 78, h: 33, r: [8,8,12,8], rot: .07 }
+      };
+      return isMobile() ? (mobileMap[type] || mobileMap.connection) : desktop;
+    }
+
+    function reindexHistoricalShells() {
+      const historical = shells.filter(item => item !== activeShell).slice(-6);
+      shells.filter(item => item !== activeShell && !historical.includes(item)).forEach(item => item.remove());
+      shells = [...historical, ...(activeShell ? [activeShell] : [])];
+      const anchorX = activeShell?.style.getPropertyValue('--x') || '50%';
+      const anchorY = activeShell?.style.getPropertyValue('--y') || '50%';
+      historical.slice().reverse().forEach((shell, index) => {
+        const age = index + 1;
+        shell.style.setProperty('--x', anchorX);
+        shell.style.setProperty('--y', anchorY);
+        shell.style.setProperty('--age', String(age));
+        shell.style.setProperty('--dx', `${-(8 + age * (isMobile() ? 5 : 8))}px`);
+        shell.style.setProperty('--dy', `${age * (isMobile() ? 5 : 7)}px`);
+        shell.style.setProperty('--dr', `${-age * .035}deg`);
+        shell.style.setProperty('--scale', String(Math.max(.86, 1 - age * .022)));
+        shell.dataset.age = String(age);
+      });
+    }
+
+    function retireActiveShell() {
+      if (!activeShell) return;
+      activeShell.classList.remove('active');
+      activeShell.classList.add('historical');
+      activeShell.setAttribute('aria-hidden', 'true');
+      activeShell.setAttribute('inert', '');
+      activeShell.removeAttribute('role');
+      activeShell.removeAttribute('aria-labelledby');
+      activeShell.querySelector('.shell-content')?.replaceChildren();
+      activeShell = null;
+      reindexHistoricalShells();
+    }
+
+    function createShell(type, text, { process = false, actions = [], role = 'status', focusAction = null } = {}) {
+      const shell = document.createElement('section');
+      const geometry = geometryFor(type, shellGeneration++);
+      shell.className = `system-shell ${type} ${process ? 'process' : 'error'} active is-entering`;
+      shell.dataset.type = type;
+      shell.tabIndex = -1;
+      shell.style.setProperty('--x', `${geometry.x}%`);
+      shell.style.setProperty('--y', `${geometry.y}%`);
+      shell.style.setProperty('--w', `${geometry.w}%`);
+      shell.style.setProperty('--h', `${geometry.h}%`);
+      shell.style.setProperty('--rot', `${geometry.rot}deg`);
+      shell.style.setProperty('--r1', `${geometry.r[0]}px`);
+      shell.style.setProperty('--r2', `${geometry.r[1]}px`);
+      shell.style.setProperty('--r3', `${geometry.r[2]}px`);
+      shell.style.setProperty('--r4', `${geometry.r[3]}px`);
+      shell.setAttribute('role', role);
+      const titleId = `shell-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      shell.setAttribute('aria-labelledby', titleId);
+
+      const content = document.createElement('div');
+      content.className = 'shell-content';
+      const signal = document.createElement('div');
+      signal.className = 'shell-signal';
+      signal.setAttribute('aria-hidden', 'true');
+      const title = document.createElement('h2');
+      title.className = 'shell-title';
+      title.id = titleId;
+      title.textContent = text;
+      content.append(signal, title);
+
+      const buttons = {};
+      if (actions.length) {
+        const row = document.createElement('div');
+        row.className = 'shell-actions';
+        actions.forEach(action => {
+          const button = document.createElement('button');
+          button.className = `shell-action${action.primary ? ' primary' : ''}${action.value === 'retry' ? ' retry-call' : ''}`;
+          button.type = 'button';
+          button.textContent = action.label;
+          button.dataset.action = action.value;
+          button.addEventListener('click', () => resolveAction(action.value), { once: true });
+          row.append(button);
+          buttons[action.value] = button;
+        });
+        content.append(row);
+      }
+
+      shell.append(content);
+      shellStack.append(shell);
+      shells.push(shell);
+      activeShell = shell;
+      reindexHistoricalShells();
+      setShellInteractivity(true);
+      requestAnimationFrame(() => shell.classList.remove('is-entering'));
+      setTimeout(() => (focusAction ? buttons[focusAction] : shell)?.focus({ preventScroll: true }), Math.max(1, 90 * timeScale));
+      return { shell, buttons };
+    }
+
+    async function showShell(type, text, config = {}) {
+      retireActiveShell();
+      const built = createShell(type, text, config);
+      await wait(520);
+      return built;
+    }
+
+    function clearShells() {
+      resolveAction('cancelled');
+      activeShell = null;
+      shells = [];
+      shellStack.replaceChildren();
+      setShellInteractivity(false);
+    }
+
+    async function firstPass(token) {
+      setPhase('upload-pending-zero');
+      await wait(7200);
+      currentRun(token);
+
+      setPhase('upload-failed');
+      attachment.classList.add('is-failing');
+      attachmentError.classList.add('is-visible');
+      queueSystemLine('Upload failed', { delay: 1450 });
+      await wait(3200);
+      currentRun(token);
+
+      setPhase('attachment-disappearing');
+      attachment.classList.add('is-disappearing');
+      await wait(850);
+      await wait(2100);
+      currentRun(token);
+
+      setPhase('message-failed');
+      outgoingBubble.classList.add('is-failed');
+      messageFailure.classList.add('is-visible');
+      queueSystemLine('Sending the message failed', { delay: 1350 });
+      await wait(500);
+      const actionPromise = waitForAction();
+      messageRetry.hidden = false;
+      messageRetry.focus({ preventScroll: true });
+      const action = await actionPromise;
+      if (action !== 'retry') return;
+      messageRetry.hidden = true;
+      await connectionFailure(token, false);
+    }
+
+    async function connectionFailure(token, renewed) {
+      currentRun(token);
+      setPhase(renewed ? 'renewed-connection-failed' : 'connection-failed');
+      const actionPromise = waitForAction();
+      await showShell(renewed ? 'renewed' : 'connection', 'Connection attempt failed', {
+        role: 'dialog',
+        actions: [{ label: 'Try again', value: 'retry', primary: true }],
+        focusAction: 'retry'
+      });
+      queueSystemLine('Connection attempt failed', { delay: 1350 });
+      const action = await actionPromise;
+      if (action !== 'retry') return;
+      await recoveryLoop(token);
+    }
+
+    async function recoveryLoop(token) {
+      currentRun(token);
+      setPhase('reconnecting');
+      await showShell('reconnecting', 'Reconnecting…', { process: true, role: 'status' });
+      queueSystemLine('Reconnecting…', { delay: 1300 });
+      await wait(9400);
+      currentRun(token);
+
+      setPhase('failed');
+      await showShell('failed', 'Failed', { role: 'status' });
+      queueSystemLine('Failed', { delay: 1150 });
+      await wait(3600);
+      currentRun(token);
+
+      setPhase('report-question');
+      const decisionPromise = waitForAction();
+      await showShell('question', 'Do you want to report the problem?', {
+        role: 'alertdialog',
+        actions: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes', primary: true }],
+        focusAction: 'no'
+      });
+      queueSystemLine('Do you want to report the problem?', { delay: 1250 });
+      const decision = await decisionPromise;
+      if (decision === 'no') {
+        cycleId += 1;
+        await wait(650);
+        await connectionFailure(token, true);
+        return;
+      }
+      if (decision !== 'yes') return;
+      await reportingSequence(token);
+    }
+
+    async function reportingSequence(token) {
+      currentRun(token);
+      setPhase('reporting');
+      await showShell('reporting', 'Reporting the problem…', { process: true, role: 'status' });
+      queueSystemLine('Reporting the problem…', { delay: 1250 });
+      await wait(8500);
+      currentRun(token);
+
+      setPhase('report-failed');
+      await showShell('report-failed', 'Reporting failed', { role: 'status' });
+      queueSystemLine('Reporting failed', { delay: 1200, cycleBreath: true });
+      await wait(4100);
+      currentRun(token);
+      cycleId += 1;
+      await connectionFailure(token, true);
+    }
+
+    function resetVisualState() {
+      runToken += 1;
+      cycleId = 0;
+      shellGeneration = 0;
+      poemQueue = Promise.resolve();
+      poemRecords = [];
+      poemLines.replaceChildren();
+      bloodField.replaceChildren();
+      poemField.classList.remove('has-lines');
+      poemFault.hidden = true;
+      poemSnap = 'compact';
+      document.documentElement.style.setProperty('--poem-height', '0px');
+      attachment.className = 'attachment';
+      attachmentError.classList.remove('is-visible');
+      outgoingBubble.classList.remove('is-failed');
+      messageFailure.classList.remove('is-visible');
+      messageRetry.hidden = true;
+      clearShells();
+      autoFollow = true;
+      programmaticFollow = false;
+      clearTimeout(followTimer);
+      returnLatest.hidden = true;
+      setPhase('messenger-ready');
+    }
+
+    function showThreshold() {
+      resetVisualState();
+      entered = false;
+      work.classList.remove('is-entered');
+      work.setAttribute('inert', '');
+      threshold.hidden = false;
+      threshold.classList.remove('is-leaving');
+      setPhase('threshold');
+      requestAnimationFrame(() => enterButton.focus());
+    }
+
+    function startRun({ fromThreshold = true } = {}) {
+      if (entered && fromThreshold) return;
+      resetVisualState();
+      entered = true;
+      const token = ++runToken;
+      work.removeAttribute('inert');
+      work.classList.add('is-entered');
+      if (fromThreshold) {
+        threshold.classList.add('is-leaving');
+        setPhase('entering');
+        setTimeout(() => { threshold.hidden = true; }, Math.max(1, 1380 * timeScale));
+      } else {
+        threshold.hidden = true;
+        setPhase('upload-pending-zero');
+      }
+      firstPass(token).catch(error => { if (error?.message !== 'RUN_CANCELLED') console.error(error); });
+    }
+
+    enterButton.addEventListener('click', () => startRun({ fromThreshold: true }));
+    messageRetry.addEventListener('click', () => resolveAction('retry'));
+
+    function openAbout() {
+      utilityPaused = true;
+      document.documentElement.dataset.utilityOpen = 'true';
+      aboutPage.showModal();
+      requestAnimationFrame(() => aboutReturn.focus());
+    }
+    function closeAbout() {
+      aboutPage.close('return');
+    }
+    aboutTrigger.addEventListener('click', openAbout);
+    aboutReturn.addEventListener('click', closeAbout);
+    aboutRestart.addEventListener('click', () => {
+      aboutPage.close('restart');
+      utilityPaused = false;
+      delete document.documentElement.dataset.utilityOpen;
+      startRun({ fromThreshold: false });
+    });
+    aboutTitleReturn.addEventListener('click', () => {
+      aboutPage.close('title');
+      utilityPaused = false;
+      delete document.documentElement.dataset.utilityOpen;
+      showThreshold();
+    });
+    aboutPage.addEventListener('close', () => { utilityPaused = false; delete document.documentElement.dataset.utilityOpen; });
+    aboutPage.addEventListener('cancel', event => { event.preventDefault(); closeAbout(); });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && aboutPage.open) { event.preventDefault(); closeAbout(); }
+      else if (event.key === 'Escape' && entered) { event.preventDefault(); openAbout(); }
+    });
+
+    window.addEventListener('resize', () => { if (isMobile() && poemRecords.length) setMobilePoemHeight(poemSnap, false); });
+
+    window.__UNHAPPY_TEST__ = Object.freeze({
+      getState() {
+        return {
+          entered, phase, cycleId,
+          poem: poemRecords.map(record => ({ text: record.text, cycleId: record.cycleId })),
+          activeShell: activeShell?.dataset.type || null,
+          shellCount: shells.length,
+          historicalShells: shells.filter(shell => shell.classList.contains('historical')).length,
+          historicalReadableText: shells.filter(shell => shell.classList.contains('historical')).some(shell => shell.textContent.trim().length > 0),
+          aboutOpen: aboutPage.open,
+          poemSnap, autoFollow,
+          systemLines: [...SYSTEM_LINES]
+        };
+      },
+      triggerAction(value) { return resolveAction(value); },
+      appendLine(text = 'Connection attempt failed') { return inscribeLine(text, { immediate: true }); },
+      async stressLines(count = 100) {
+        const pattern = ['Connection attempt failed','Reconnecting…','Failed','Do you want to report the problem?','Reporting the problem…','Reporting failed'];
+        const fragment = document.createDocumentFragment();
+        const start = poemRecords.length;
+        for (let i = 0; i < count; i += 1) {
+          const text = pattern[i % pattern.length];
+          poemRecords.push({ id: `stress-${start+i}`, text, cycleId, createdAt: performance.now() });
+          const line = document.createElement('p');
+          line.className = 'poem-line';
+          if (text === 'Reporting failed') line.classList.add('cycle-breath');
+          line.textContent = text;
+          fragment.append(line);
+        }
+        poemLines.querySelectorAll('.poem-line.is-current').forEach(node => node.classList.remove('is-current'));
+        if (fragment.lastElementChild) fragment.lastElementChild.classList.add('is-current');
+        poemLines.append(fragment);
+        openPoemFieldIfNeeded();
+        if (autoFollow) scrollPoemToLatest('auto');
+      },
+      setPoemSnap: setMobilePoemHeight,
+      async renderState(type, text = null, actions = []) {
+        if (!testMode) throw new Error('TEST_MODE_REQUIRED');
+        if (!entered) {
+          entered = true;
+          threshold.hidden = true;
+          work.removeAttribute('inert');
+          work.classList.add('is-entered');
+        }
+        return showShell(type, text || ({connection:'Connection attempt failed',renewed:'Connection attempt failed',reconnecting:'Reconnecting…',failed:'Failed',question:'Do you want to report the problem?',reporting:'Reporting the problem…','report-failed':'Reporting failed'}[type]), {
+          process: ['reconnecting','reporting'].includes(type),
+          role: ['question','connection','renewed'].includes(type) ? 'dialog' : 'status',
+          actions
+        });
+      },
+      async renderSequence(types) {
+        for (const type of types) await this.renderState(type);
+      },
+      clearShells,
+      reset: resetVisualState,
+      showThreshold,
+      start: () => startRun({ fromThreshold: false })
+    });
+
+    setPhase('threshold');
+  })();
+  </script>
+</body>
+</html>
