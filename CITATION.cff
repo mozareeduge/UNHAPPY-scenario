@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you cite this work, use the metadata below."
+title: "UNHAPPY Scenario: An Internet Blackout Poem"
+type: software
+authors:
+  - family-names: Zare
+    given-names: Mohammad
+    alias: mozare
+version: 2.3.0
+date-released: 2026-07-23
+abstract: "A browser-native found-interface poem made in relation to repeated internet blackouts in Iran."
+license: LicenseRef-Proprietary

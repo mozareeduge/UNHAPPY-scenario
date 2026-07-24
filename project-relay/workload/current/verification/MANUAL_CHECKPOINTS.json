@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "checkpoints": [
+    {
+      "id": "manual-visual-aesthetic",
+      "description": "Manually inspect named desktop/mobile states for UI/UX, composition, typography, icons, controls, affordances, layer accumulation, mobile underfield, and overall aesthetic coherence."
+    },
+    {
+      "id": "manual-pr-review",
+      "description": "Review final diff and draft PR contents; confirm no merge or repository-setting mutation occurred."
+    }
+  ]
+}

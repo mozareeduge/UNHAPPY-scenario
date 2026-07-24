@@ -1,0 +1,146 @@
+[
+  {
+    "family": "Static integrity",
+    "name": "HTML, text and security invariants",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Typography and threshold",
+    "name": "Distinct threshold, editorial and state typography",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Initial encounter",
+    "name": "Threshold entry and zero-progress attachment state",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Procedure",
+    "name": "Complete Yes/reporting path returns to renewed connection failure",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Procedure",
+    "name": "No branch returns to renewed connection failure without reporting lines",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Utility",
+    "name": "About return and return-to-title routes",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Interaction ownership",
+    "name": "Active shell semantics, inert background and no close control",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Affordance",
+    "name": "Try again has a reduced, rhythmic call animation",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Poem inscription",
+    "name": "Lines fade in smoothly and create blood-light residue",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Layer archive",
+    "name": "Long shell histories remain bounded, textless and ordered",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Long duration",
+    "name": "2,000 poem lines preserve scroll and return-to-latest",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Responsive",
+    "name": "Desktop 1440\u00d7900 question geometry",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Responsive",
+    "name": "Desktop 1280\u00d7800 reporting geometry",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Responsive",
+    "name": "Tablet 1024\u00d7768 failed geometry",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Responsive",
+    "name": "Mobile 430\u00d7932 question and underfield geometry",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Responsive",
+    "name": "Mobile 390\u00d7844 connection and underfield geometry",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Responsive",
+    "name": "Mobile 320\u00d7568 report-failed geometry",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Mobile poem",
+    "name": "Compact, reading and expanded underfield snaps",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Mobile poem",
+    "name": "Visible fault-latch affordance expands and collapses the underfield",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Responsive",
+    "name": "Short desktop report question preserves shell, controls and composer clearance",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Layer archive",
+    "name": "Historical frames accumulate in a bounded ordered direction",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Accessibility",
+    "name": "Reduced-motion mode suppresses call animation",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Visual proportion",
+    "name": "State type remains proportionate to its shell",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "Accessibility",
+    "name": "Primary visible controls meet practical target sizes",
+    "passed": true,
+    "detail": ""
+  }
+]
