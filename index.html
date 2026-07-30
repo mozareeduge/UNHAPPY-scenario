@@ -35,6 +35,7 @@
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --safe-left: env(safe-area-inset-left, 0px);
       --poem-height: 0px;
+      --annex: 0;
       --display-font: "Inter Display", "Segoe UI Variable Display", "Aptos Display", system-ui, sans-serif;
       --state-font: Bahnschrift, "Roboto Condensed", "Arial Narrow", "Liberation Sans Narrow", sans-serif;
       --ui-font: "Segoe UI Variable Text", Inter, "Helvetica Neue", Arial, system-ui, sans-serif;
@@ -244,19 +245,20 @@
       z-index: calc(60 - var(--age)); opacity: calc(.98 - var(--age) * .07); filter: brightness(calc(.92 - var(--age) * .045));
       transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(calc(var(--rot) + var(--dr))) scale(var(--scale));
       background: rgba(1,1,1,.97); border-color: rgba(238,233,223,calc(.14 - var(--age) * .009));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.016), 0 20px 62px rgba(0,0,0,.5);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.016), 0 20px 62px rgba(0,0,0,.5), inset 0 0 calc(20px + var(--age) * 5px) rgba(0,0,0, calc(.4 + var(--age) * .055)), 0 1px 0 rgba(0,0,0, calc(.3 + var(--age) * .06));
     }
     .system-shell.historical .shell-content { display: none; }
     .system-shell.historical::before { background: linear-gradient(135deg, rgba(255,255,255,.014), transparent 28%, rgba(127,39,44,.02)); }
     .system-shell.historical::after { width: calc(22% + var(--age) * 3%); opacity: calc(.55 - var(--age) * .05); }
+    .system-shell.historical::before { box-shadow: inset 0 0 0 1px rgba(0,0,0, calc(.28 + var(--age) * .05)); }
 
     .shell-content { position: relative; z-index: 2; height: 100%; padding: clamp(20px, 2.5vw, 32px); display: grid; grid-template-columns: 7px minmax(0,1fr); grid-template-rows: 1fr auto; column-gap: clamp(16px, 2vw, 26px); row-gap: 18px; align-items: center; }
     .shell-signal { grid-row: 1 / span 2; width: 7px; align-self: stretch; position: relative; }
     .shell-signal::before { content: ""; position: absolute; left: 3px; top: 3px; bottom: 3px; width: 1px; background: linear-gradient(180deg, rgba(179,75,80,.82), rgba(127,39,44,.12) 68%, transparent); box-shadow: 0 0 14px rgba(179,75,80,.16); }
     .shell-signal::after { content: ""; position: absolute; left: 1px; top: 20%; width: 5px; height: 5px; border-radius: 50%; background: var(--blood-bright); box-shadow: 0 0 13px rgba(179,75,80,.52); }
-    .system-shell.process .shell-signal::before { background: linear-gradient(180deg, rgba(238,233,223,.72), rgba(128,138,181,.2), transparent); }
+    .system-shell.process .shell-signal::before { background: linear-gradient(180deg, rgba(238,233,223,.72), rgba(128,138,181,.2), transparent); opacity: calc(.42 + var(--travel, 1) * .58); }
     .system-shell.process .shell-signal::after { background: var(--bone); animation: processNode 1.75s ease-in-out infinite; }
-    @keyframes processNode { 0%,100% { transform: translateY(0); opacity: .45; } 50% { transform: translateY(36px); opacity: 1; } }
+    @keyframes processNode { 0%,100% { transform: translateY(0); opacity: calc(.22 + var(--travel, 1) * .23); } 50% { transform: translateY(calc(var(--travel, 1) * 36px)); opacity: calc(.5 + var(--travel, 1) * .5); } }
     .shell-title { margin: 0; max-width: 24ch; color: var(--bone-bright); font-family: var(--state-font); font-size: clamp(25px, 2.6vw, 33px); font-weight: 500; letter-spacing: -.028em; line-height: 1.04; text-wrap: balance; }
     .shell-actions { grid-column: 2; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
     .shell-action {
@@ -269,10 +271,23 @@
     .shell-action::before { content: ""; position: absolute; right: 5px; top: 5px; width: 9px; height: 1px; background: rgba(238,233,223,.24); transform: rotate(45deg); transform-origin: right; }
     .shell-action:hover { transform: translateY(-1px); box-shadow: inset 0 0 0 1px rgba(238,233,223,.34), 0 10px 28px rgba(0,0,0,.3); }
     .shell-action.primary { background: linear-gradient(180deg, rgba(127,39,44,.19), rgba(127,39,44,.07)); box-shadow: inset 0 0 0 1px rgba(179,75,80,.43), 0 0 0 0 rgba(179,75,80,0); }
-    .shell-action.retry-call { animation: retryCall 2.65s ease-in-out infinite; }
-    .shell-action.retry-call::after { content: ""; position: absolute; inset: -5px; border: 1px solid rgba(179,75,80,.28); border-radius: 7px 16px 7px 7px; opacity: 0; animation: retryHalo 2.65s ease-out infinite; pointer-events: none; }
-    @keyframes retryCall { 0%,100% { transform: scale(1); box-shadow: inset 0 0 0 1px rgba(179,75,80,.4), 0 0 0 0 rgba(179,75,80,0); } 50% { transform: scale(1.025); box-shadow: inset 0 0 0 1px rgba(179,75,80,.72), 0 0 28px rgba(127,39,44,.16); } }
-    @keyframes retryHalo { 0%,35% { opacity: 0; transform: scale(.96); } 56% { opacity: .45; } 100% { opacity: 0; transform: scale(1.09); } }
+    .shell-action.retry-call { animation: retryCall 2.65s ease-in-out infinite; opacity: calc(1 - var(--erosion, 0) * .22); box-shadow: inset 0 0 0 1px rgba(179,75,80, calc(.4 - var(--erosion, 0) * .18)), 0 0 0 0 rgba(179,75,80,0); }
+    .shell-action.retry-call::after { content: ""; position: absolute; inset: -5px; border: 1px solid rgba(179,75,80, calc(.28 - var(--erosion, 0) * .16)); border-radius: 7px 16px 7px 7px; opacity: 0; animation: retryHalo 2.65s ease-out infinite; pointer-events: none; }
+    @keyframes retryCall { 0%,100% { transform: scale(1); box-shadow: inset 0 0 0 1px rgba(179,75,80, calc(.4 - var(--erosion, 0) * .18)), 0 0 0 0 rgba(179,75,80,0); } 50% { transform: scale(calc(1.025 - var(--erosion, 0) * .015)); box-shadow: inset 0 0 0 1px rgba(179,75,80, calc(.72 - var(--erosion, 0) * .3)), 0 0 calc(28px - var(--erosion, 0) * 16px) rgba(127,39,44, calc(.16 - var(--erosion, 0) * .08)); } }
+    @keyframes retryHalo { 0%,35% { opacity: 0; transform: scale(.96); } 56% { opacity: calc(.45 - var(--erosion, 0) * .28); } 100% { opacity: 0; transform: scale(calc(1.09 - var(--erosion, 0) * .04)); } }
+
+    /* No-branch nonverbal closure — no words, existing 650ms interval only */
+    .system-shell.is-closing { filter: brightness(.7); transition: filter .5s var(--ease-heavy); }
+    .system-shell.is-closing .shell-title,
+    .system-shell.is-closing .shell-actions { transition: opacity .32s var(--ease), transform .32s var(--ease); opacity: 0; transform: translateY(4px); }
+    .system-shell.is-closing .shell-signal::after { transition: opacity .32s var(--ease), transform .32s var(--ease); opacity: 0; transform: scale(.35); }
+
+    /* Failed-transmission bridge — event-bound, restrained, never captures pointer/focus */
+    .bridge-field { position: fixed; inset: 0; z-index: 45; pointer-events: none; }
+    .transmission-bridge { position: fixed; left: 0; top: 0; height: 1px; pointer-events: none; transform-origin: 0 50%; background: linear-gradient(90deg, rgba(179,75,80,.5), rgba(179,75,80,.06)); filter: blur(.3px); opacity: 0; animation: bridgePulse 900ms var(--ease) forwards; }
+    @keyframes bridgePulse { 0% { opacity: 0; transform: scaleX(.1); } 32% { opacity: .8; } 100% { opacity: 0; transform: scaleX(1); } }
+    @media (prefers-reduced-transparency: reduce) { .transmission-bridge { background: rgba(179,75,80,.85); filter: none; } }
+    @media (forced-colors: active) { .bridge-field { display: none; } }
 
     /* Editorial About overlay */
     .about-page { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #000; color: var(--bone); }
@@ -379,8 +394,9 @@
     /* v2.4.0 — proportion, collision and mobile affordance correction */
     .composition {
       width: min(1540px, 100%);
-      grid-template-columns: minmax(0, 1fr) clamp(300px, 28vw, 390px);
+      grid-template-columns: minmax(0, 1fr) clamp(300px, calc(28vw + var(--annex, 0) * 13vw), 460px);
       gap: clamp(22px, 3vw, 48px);
+      transition: grid-template-columns .9s var(--ease-heavy);
       padding-left: max(clamp(24px, 3vw, 48px), calc(20px + var(--safe-left)));
       padding-right: max(clamp(24px, 3vw, 48px), calc(20px + var(--safe-right)));
     }
@@ -414,7 +430,7 @@
 
     @media (max-width: 1180px) and (min-width: 761px) {
       .composition {
-        grid-template-columns: minmax(0, 1fr) clamp(250px, 28vw, 300px);
+        grid-template-columns: minmax(0, 1fr) clamp(250px, calc(28vw + var(--annex, 0) * 10vw), 340px);
         gap: 18px;
         padding: 18px;
         padding-top: max(26px, calc(18px + var(--safe-top)));
@@ -464,6 +480,7 @@
       .poem-field[data-snap="reading"] .fault-arrow-down,
       .poem-field[data-snap="expanded"] .fault-arrow-down { opacity: 1; stroke: rgba(238,233,223,.76); transform: translateY(1px); }
       .poem-fault:hover .fault-arrow, .poem-fault:focus-visible .fault-arrow { stroke: var(--bone-bright); }
+      .poem-fault:active .poem-fault-latch { transform: translate(-50%,-50%) scale(.93); }
       @keyframes faultLatchBreath {
         0%,100% { opacity: .72; transform: translate(-50%,-50%) scale(.96); }
         50% { opacity: 1; transform: translate(-50%,-50%) scale(1.03); }
@@ -505,6 +522,7 @@
       <div class="black-membrane membrane-b"></div>
       <div class="black-membrane membrane-c"></div>
     </div>
+    <div class="bridge-field" id="bridge-field" aria-hidden="true"></div>
 
     <button class="global-utility" id="about-trigger" type="button">about</button>
 
@@ -598,7 +616,7 @@
       <section class="about-copy">
         <p>Software calls the route away from success an unhappy scenario. The phrase makes interruption sound manageable: a branch to be anticipated, named, and recovered from.</p>
         <p><strong>UNHAPPY Scenario</strong> stays with that calm language after recovery has ceased to be credible. Drawn from the small notices through which systems explain failure and promise return, the poem carries their familiar English into the memory of repeated internet blackouts in Iran. What begins as technical inconvenience becomes a vocabulary for isolation, deferred contact, and an accountability that cannot be reached.</p>
-        <p class="meta">English edition · v2.4.0 · 2026<br>Mohammad Zare<br>No file, message, or report is transmitted. No analytics or persistent storage is used.</p>
+        <p class="meta">English edition · v2.6.0 · 2026<br>Mohammad Zare<br>No file, message, or report is transmitted. No analytics or persistent storage is used.</p>
         <div class="about-actions">
           <button class="about-action" id="about-restart" type="button">restart encounter</button>
           <button class="about-action" id="about-title-return" type="button">return to title</button>
@@ -654,6 +672,7 @@
     const faultRegister = $('fault-register');
     const bloodField = $('blood-field');
     const returnLatest = $('return-latest');
+    const bridgeField = $('bridge-field');
     const aboutTrigger = $('about-trigger');
     const aboutPage = $('about-page');
     const aboutReturn = $('about-return');
@@ -682,6 +701,23 @@
     let followTimer = 0;
     let poemSnap = 'compact';
     let dragState = null;
+    let annexLevel = 0;
+    let noClosureCount = 0;
+    let lastBridge = null;
+
+    const LOCKED_TIMINGS = Object.freeze({
+      uploadPendingZero: 7200,
+      attachmentDisappearing: 850 + 2100,
+      connectionFailedLineDelay: 1350,
+      reconnecting: 9400,
+      failed: 3600,
+      noClosure: 650,
+      reporting: 8500,
+      reportFailed: 4100
+    });
+
+    function retryErosionFor(cid) { return Math.min(.75, cid * 0.18); }
+    function travelFor(cid) { return Math.max(.3, 1 - cid * 0.15); }
 
     async function wait(ms) {
       let remaining = Math.max(0, ms * timeScale);
@@ -772,13 +808,56 @@
       faultRegister.classList.add('is-active');
     }
 
+    function updateAnnexation() {
+      annexLevel = Math.max(0, Math.min(1, poemRecords.length / 16 + cycleId * 0.1));
+      document.documentElement.style.setProperty('--annex', annexLevel.toFixed(3));
+      return annexLevel;
+    }
+
+    function lineAnchorRect(line) {
+      try {
+        const range = document.createRange();
+        range.selectNodeContents(line);
+        const rects = range.getClientRects();
+        return rects[rects.length - 1] || line.getBoundingClientRect();
+      } catch {
+        return line.getBoundingClientRect();
+      }
+    }
+
+    function drawBridge(sourceEl, targetEl, lineId) {
+      if (!sourceEl || !targetEl || !sourceEl.isConnected || !targetEl.isConnected) return;
+      const s = sourceEl.getBoundingClientRect();
+      const t = targetEl.getBoundingClientRect();
+      if (!s.width && !s.height) return;
+      const x1 = s.left + s.width / 2;
+      const y1 = s.top + s.height / 2;
+      const x2 = t.left + Math.min(t.width, 18);
+      const y2 = t.top + t.height / 2;
+      const length = Math.hypot(x2 - x1, y2 - y1);
+      if (!Number.isFinite(length) || length < 1) return;
+      const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+      const bridge = document.createElement('span');
+      bridge.className = 'transmission-bridge';
+      bridge.style.left = `${x1}px`;
+      bridge.style.top = `${y1}px`;
+      bridge.style.width = `${Math.min(length, 900)}px`;
+      bridge.style.transform = `rotate(${angle}deg)`;
+      bridgeField.append(bridge);
+      bridge.addEventListener('animationend', () => bridge.remove(), { once: true });
+      setTimeout(() => bridge.remove(), Math.max(200, 1300 * timeScale));
+      lastBridge = { sourceType: sourceEl.dataset?.type || sourceEl.id || null, lineId: lineId || null, at: performance.now() };
+    }
+
     function createBloodBloom(index, line) {
       const bloom = document.createElement('span');
       bloom.className = 'blood-bloom';
-      const rect = line.getBoundingClientRect();
+      const rect = lineAnchorRect(line);
       const host = poemField.getBoundingClientRect();
-      const x = 30 + ((index * 37) % 54);
-      const y = Math.max(12, Math.min(88, ((rect.top - host.top + rect.height / 2) / Math.max(1, host.height)) * 100));
+      const hostWidth = Math.max(1, host.width);
+      const hostHeight = Math.max(1, host.height);
+      const x = Math.max(14, Math.min(86, ((rect.left - host.left + rect.width / 2) / hostWidth) * 100));
+      const y = Math.max(12, Math.min(88, ((rect.top - host.top + rect.height / 2) / hostHeight) * 100));
       bloom.style.left = `${x}%`;
       bloom.style.top = `${y}%`;
       bloom.style.animationDelay = `${Math.min(500, index * 23)}ms`;
@@ -786,7 +865,7 @@
       while (bloodField.children.length > 36) bloodField.firstElementChild.remove();
     }
 
-    async function inscribeLine(text, { delay = 1150, cycleBreath = false, immediate = false, token = runToken } = {}) {
+    async function inscribeLine(text, { delay = 1150, cycleBreath = false, immediate = false, token = runToken, bridgeFrom = null } = {}) {
       if (!SYSTEM_LINES.includes(text)) throw new Error(`Unapproved poem line: ${text}`);
       if (!immediate) await wait(delay);
       currentRun(token);
@@ -803,9 +882,11 @@
       poemLines.querySelectorAll('.poem-line.is-current').forEach(node => node.classList.remove('is-current'));
       poemLines.append(line);
       openPoemFieldIfNeeded();
+      updateAnnexation();
       if (autoFollow) scrollPoemToLatest('auto');
       requestAnimationFrame(() => requestAnimationFrame(() => line.classList.remove('is-entering')));
       createBloodBloom(poemRecords.length - 1, line);
+      if (bridgeFrom) drawBridge(bridgeFrom, line, record.id);
       if (!immediate) await wait(1150);
       if (autoFollow) scrollPoemToLatest('smooth');
       return line;
@@ -912,6 +993,9 @@
       shell.setAttribute('role', role);
       const titleId = `shell-${Date.now()}-${Math.random().toString(36).slice(2)}`;
       shell.setAttribute('aria-labelledby', titleId);
+      if (process && (type === 'reconnecting' || type === 'reporting')) {
+        shell.style.setProperty('--travel', travelFor(cycleId).toFixed(3));
+      }
 
       const content = document.createElement('div');
       content.className = 'shell-content';
@@ -934,6 +1018,7 @@
           button.type = 'button';
           button.textContent = action.label;
           button.dataset.action = action.value;
+          if (action.value === 'retry') button.style.setProperty('--erosion', retryErosionFor(cycleId).toFixed(3));
           button.addEventListener('click', () => resolveAction(action.value), { once: true });
           row.append(button);
           buttons[action.value] = button;
@@ -975,7 +1060,7 @@
       setPhase('upload-failed');
       attachment.classList.add('is-failing');
       attachmentError.classList.add('is-visible');
-      queueSystemLine('Upload failed', { delay: 1450 });
+      queueSystemLine('Upload failed', { delay: 1450, bridgeFrom: attachmentError });
       await wait(3200);
       currentRun(token);
 
@@ -988,7 +1073,7 @@
       setPhase('message-failed');
       outgoingBubble.classList.add('is-failed');
       messageFailure.classList.add('is-visible');
-      queueSystemLine('Sending the message failed', { delay: 1350 });
+      queueSystemLine('Sending the message failed', { delay: 1350, bridgeFrom: messageFailure });
       await wait(500);
       const actionPromise = waitForAction();
       messageRetry.hidden = false;
@@ -1008,7 +1093,7 @@
         actions: [{ label: 'Try again', value: 'retry', primary: true }],
         focusAction: 'retry'
       });
-      queueSystemLine('Connection attempt failed', { delay: 1350 });
+      queueSystemLine('Connection attempt failed', { delay: 1350, bridgeFrom: activeShell });
       const action = await actionPromise;
       if (action !== 'retry') return;
       await recoveryLoop(token);
@@ -1018,13 +1103,13 @@
       currentRun(token);
       setPhase('reconnecting');
       await showShell('reconnecting', 'Reconnecting…', { process: true, role: 'status' });
-      queueSystemLine('Reconnecting…', { delay: 1300 });
+      queueSystemLine('Reconnecting…', { delay: 1300, bridgeFrom: activeShell });
       await wait(9400);
       currentRun(token);
 
       setPhase('failed');
       await showShell('failed', 'Failed', { role: 'status' });
-      queueSystemLine('Failed', { delay: 1150 });
+      queueSystemLine('Failed', { delay: 1150, bridgeFrom: activeShell });
       await wait(3600);
       currentRun(token);
 
@@ -1032,13 +1117,15 @@
       const decisionPromise = waitForAction();
       await showShell('question', 'Do you want to report the problem?', {
         role: 'alertdialog',
-        actions: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes', primary: true }],
+        actions: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
         focusAction: 'no'
       });
-      queueSystemLine('Do you want to report the problem?', { delay: 1250 });
+      queueSystemLine('Do you want to report the problem?', { delay: 1250, bridgeFrom: activeShell });
       const decision = await decisionPromise;
       if (decision === 'no') {
         cycleId += 1;
+        noClosureCount += 1;
+        activeShell?.classList.add('is-closing');
         await wait(650);
         await connectionFailure(token, true);
         return;
@@ -1051,13 +1138,13 @@
       currentRun(token);
       setPhase('reporting');
       await showShell('reporting', 'Reporting the problem…', { process: true, role: 'status' });
-      queueSystemLine('Reporting the problem…', { delay: 1250 });
+      queueSystemLine('Reporting the problem…', { delay: 1250, bridgeFrom: activeShell });
       await wait(8500);
       currentRun(token);
 
       setPhase('report-failed');
       await showShell('report-failed', 'Reporting failed', { role: 'status' });
-      queueSystemLine('Reporting failed', { delay: 1200, cycleBreath: true });
+      queueSystemLine('Reporting failed', { delay: 1200, cycleBreath: true, bridgeFrom: activeShell });
       await wait(4100);
       currentRun(token);
       cycleId += 1;
@@ -1076,6 +1163,11 @@
       poemFault.hidden = true;
       poemSnap = 'compact';
       document.documentElement.style.setProperty('--poem-height', '0px');
+      annexLevel = 0;
+      noClosureCount = 0;
+      lastBridge = null;
+      document.documentElement.style.setProperty('--annex', '0');
+      bridgeField.replaceChildren();
       attachment.className = 'attachment';
       attachmentError.classList.remove('is-visible');
       outgoingBubble.classList.remove('is-failed');
@@ -1165,7 +1257,19 @@
           historicalReadableText: shells.filter(shell => shell.classList.contains('historical')).some(shell => shell.textContent.trim().length > 0),
           aboutOpen: aboutPage.open,
           poemSnap, autoFollow,
-          systemLines: [...SYSTEM_LINES]
+          systemLines: [...SYSTEM_LINES],
+          annexLevel,
+          retryCredibility: 1 - retryErosionFor(cycleId),
+          processExhaustion: travelFor(cycleId),
+          noClosureCount,
+          decisionParity: (() => {
+            const yesBtn = activeShell?.querySelector('[data-action="yes"]');
+            const noBtn = activeShell?.querySelector('[data-action="no"]');
+            if (!yesBtn || !noBtn) return null;
+            return { yesPrimary: yesBtn.classList.contains('primary'), noPrimary: noBtn.classList.contains('primary') };
+          })(),
+          lastBridge,
+          lockedTimings: LOCKED_TIMINGS
         };
       },
       triggerAction(value) { return resolveAction(value); },

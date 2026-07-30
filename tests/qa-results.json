@@ -142,5 +142,59 @@
     "name": "Primary visible controls meet practical target sizes",
     "passed": true,
     "detail": ""
+  },
+  {
+    "family": "C06 decision parity",
+    "name": "Yes/No receive equal semantic and computed treatment",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "C09 no-branch closure",
+    "name": "No records one nonverbal closure with no reporting text, in the existing interval",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "C05/C08 erosion and exhaustion",
+    "name": "Retry credibility and process exhaustion decrease across cycles; timing map and hit target unchanged",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "C02 failed-transmission bridge",
+    "name": "Bridge is event-bound, noninteractive, and points to a real poem line",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "C01 poem field annexation",
+    "name": "Annexation grows from accumulated lines without obstructing messenger controls",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "C03 historical shell pressure",
+    "name": "Historical residues carry measurable, textless tonal displacement",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "C04 line-anchored bloom",
+    "name": "Desktop bloom stays vertically anchored near its line",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "C04 line-anchored bloom",
+    "name": "Mobile bloom stays vertically anchored near its line",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "family": "C07 mobile fault seam",
+    "name": "Fault seam remains usable and unclipped at 320\u00d7568, 390\u00d7844, 430\u00d7932",
+    "passed": true,
+    "detail": ""
   }
 ]

@@ -2,7 +2,7 @@
 
 **An Internet Blackout Poem**  
 **by mozare**  
-English edition · v2.4.0 · 2026
+English edition · v2.6.0 · 2026
 
 `index.html` is the complete standalone artwork. It contains no external runtime dependency and performs no upload, message transmission, connectivity test, report, analytics request, cookie write, or persistent-storage operation.
 

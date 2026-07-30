@@ -1,5 +1,10 @@
 # UNHAPPY Scenario
-## Final Design and Technical Specification — v2.4.0
+## Final Design and Technical Specification — v2.6.0
+
+v2.6.0 implements the approved atelier decisions C01–C09 on top of this specification's v2.4.0
+baseline, unchanged below. See `CHANGELOG.md` (v2.6.0) for the full adopted/declined system list
+and `design/CREATIVE_IMPLEMENTATION_CONTRACT.md` (execution package, external to this repository)
+for each system's predicates.
 
 ## 1. Artistic proposition
 

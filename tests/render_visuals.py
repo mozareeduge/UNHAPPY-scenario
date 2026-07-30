@@ -31,8 +31,19 @@ def wait_phase(page, phase, timeout=10000):
     page.wait_for_function('p=>document.body.dataset.phase===p', arg=phase, timeout=timeout)
 
 
+FINGERPRINT = os.environ.get('UNHAPPY_CANDIDATE_FINGERPRINT', 'uncomputed')
+WATERMARK = f'REVIEW_ARTIFACT — NOT AUTOMATIC ARTISTIC PASS · candidate {FINGERPRINT[:12]}'
+
+
 def shot(page, name, mobile=False):
     page.screenshot(path=str(OUT / name), animations='allow')
+
+
+def label(im):
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, im.height - 22, im.width, im.height], fill=(0, 0, 0))
+    d.text((6, im.height - 18), WATERMARK, fill=(179, 75, 80))
+    return im
 
 
 def run_route(page, prefix):
@@ -75,6 +86,79 @@ def run_route(page, prefix):
     shot(page, f'{prefix}-11-about.png')
 
 
+def extra_states(page, prefix):
+    """Named renders for C01-C09: retry erosion, process exhaustion, decision/closure,
+    dense historical pressure, desktop annexation, and a bloom anchor close-up."""
+    if page.evaluate("document.getElementById('about-page').open"):
+        page.click('#about-return')
+    page.evaluate("window.__UNHAPPY_TEST__.reset()")
+    page.evaluate("window.__UNHAPPY_TEST__.start()")
+    wait_phase(page, 'message-failed')
+    page.wait_for_selector('#message-retry:not([hidden])', timeout=8000)
+    page.locator('#message-retry').evaluate('e=>e.click()')
+    wait_phase(page, 'connection-failed')
+    page.wait_for_timeout(300)
+    shot(page, f'{prefix}-12-retry-first.png')
+    for _ in range(2):
+        page.locator(".system-shell.active [data-action='retry']").evaluate('e=>e.click()')
+        wait_phase(page, 'report-question')
+        page.click(".system-shell.active [data-action='no']")
+        wait_phase(page, 'renewed-connection-failed')
+    page.wait_for_timeout(300)
+    shot(page, f'{prefix}-13-retry-third.png')
+
+    page.evaluate("window.__UNHAPPY_TEST__.reset()")
+    page.evaluate("window.__UNHAPPY_TEST__.start()")
+    wait_phase(page, 'message-failed')
+    page.wait_for_selector('#message-retry:not([hidden])', timeout=8000)
+    page.locator('#message-retry').evaluate('e=>e.click()')
+    wait_phase(page, 'connection-failed')
+    page.locator(".system-shell.active [data-action='retry']").evaluate('e=>e.click()')
+    wait_phase(page, 'reconnecting')
+    page.wait_for_timeout(300)
+    shot(page, f'{prefix}-14-reconnecting-first.png')
+    wait_phase(page, 'report-question')
+    for _ in range(2):
+        page.click(".system-shell.active [data-action='no']")
+        wait_phase(page, 'renewed-connection-failed')
+        page.locator(".system-shell.active [data-action='retry']").evaluate('e=>e.click()')
+        wait_phase(page, 'reconnecting')
+    page.wait_for_timeout(300)
+    shot(page, f'{prefix}-15-reconnecting-third.png')
+    wait_phase(page, 'report-question')
+    page.wait_for_timeout(200)
+    shot(page, f'{prefix}-16-decision.png')
+    page.click(".system-shell.active [data-action='no']")
+    page.wait_for_timeout(80)
+    shot(page, f'{prefix}-17-no-closure.png')
+    wait_phase(page, 'renewed-connection-failed')
+
+    page.evaluate(
+        "types => window.__UNHAPPY_TEST__.renderSequence(types)",
+        ['connection', 'reconnecting', 'failed', 'question', 'reporting', 'report-failed', 'renewed'] * 3,
+    )
+    page.wait_for_timeout(400)
+    shot(page, f'{prefix}-18-historical-pressure.png')
+
+    if prefix == 'desktop':
+        page.evaluate("window.__UNHAPPY_TEST__.reset()")
+        for _ in range(10):
+            page.evaluate("window.__UNHAPPY_TEST__.appendLine('Connection attempt failed')")
+        page.wait_for_timeout(200)
+        shot(page, f'{prefix}-19-annexation.png')
+
+    page.evaluate("window.__UNHAPPY_TEST__.reset()")
+    page.evaluate("window.__UNHAPPY_TEST__.appendLine('Connection attempt failed')")
+    page.wait_for_timeout(200)
+    shot(page, f'{prefix}-20-bloom-anchor.png')
+
+    if prefix == 'mobile':
+        for i, snap in enumerate(('compact', 'reading', 'expanded')):
+            page.evaluate("s=>window.__UNHAPPY_TEST__.setPoemSnap(s,false)", snap)
+            page.wait_for_timeout(120)
+            shot(page, f'{prefix}-2{i+1}-seam-{snap}.png')
+
+
 def contact_sheet(prefix, cols, thumb_width, pad=18):
     files = sorted(OUT.glob(f'{prefix}-*.png'))
     thumbs=[]
@@ -89,11 +173,12 @@ def contact_sheet(prefix, cols, thumb_width, pad=18):
         thumbs.append(canvas)
     rows=(len(thumbs)+cols-1)//cols
     cell_h=max(i.height for i in thumbs)
-    sheet=Image.new('RGB',(cols*thumb_width+(cols+1)*pad, rows*cell_h+(rows+1)*pad),(8,8,8))
+    sheet=Image.new('RGB',(cols*thumb_width+(cols+1)*pad, rows*cell_h+(rows+1)*pad+22),(8,8,8))
     for idx,im in enumerate(thumbs):
         x=pad+(idx%cols)*(thumb_width+pad)
         y=pad+(idx//cols)*(cell_h+pad)
         sheet.paste(im,(x,y))
+    label(sheet)
     sheet.save(ROOT/'docs'/f'{prefix}_state_contact_sheet.png',quality=95)
 
 
@@ -105,11 +190,13 @@ with sync_playwright() as pw:
     page = browser.new_page(viewport={'width':1440,'height':900}, device_scale_factor=1)
     page.set_content(HTML, wait_until='load')
     run_route(page, 'desktop')
+    extra_states(page, 'desktop')
     page.context.close()
 
     page = browser.new_page(viewport={'width':390,'height':844}, device_scale_factor=1)
     page.set_content(HTML, wait_until='load')
     run_route(page, 'mobile')
+    extra_states(page, 'mobile')
     page.context.close()
     browser.close()
 

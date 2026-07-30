@@ -6,7 +6,7 @@ authors:
   - family-names: Zare
     given-names: Mohammad
     alias: mozare
-version: 2.3.0
-date-released: 2026-07-23
+version: 2.6.0
+date-released: 2026-07-30
 abstract: "A browser-native found-interface poem made in relation to repeated internet blackouts in Iran."
 license: LicenseRef-Proprietary
