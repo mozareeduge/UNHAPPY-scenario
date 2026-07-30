@@ -1,8 +1,8 @@
-# UNHAPPY Scenario v2.4.0 — QA Report
+# UNHAPPY Scenario v2.6.0 — QA Report
 
 ## Release conclusion
 
-**Passed.** The release completed **24 automated test suites** containing **119 explicit assertion sites**, followed by manual inspection of desktop, compact-desktop, tablet, mobile, long-loop, and visual-state renders.
+**Passed.** The v2.4.0 baseline retains its **24 automated test suites**. This candidate adds **9 further suites** covering every objectively testable C01–C09 predicate from the creative implementation contract, for **33 automated test suites** total, followed by manual inspection of desktop, compact-desktop, tablet, mobile, long-loop, and visual-state renders. Automated checks establish objective behavior only; final artistic judgement remains Mohammad Zare's alone (see "Remaining limit").
 
 ## Automated verification
 
@@ -24,6 +24,14 @@
 | Mobile underfield | Compact, reading, expanded, tap-to-toggle, drag-ready affordance | Passed |
 | Accessibility | Focus, semantics, target size, reduced motion | Passed |
 | Visual proportion | State text and actions remain proportionate to shell geometry | Passed |
+| C06 decision parity | Yes/No equal semantic and computed treatment, DOM order and focus unchanged | Passed |
+| C09 no-branch closure | One nonverbal closure recorded per No, no reporting text, existing 650 ms interval | Passed |
+| C05/C08 erosion and exhaustion | Retry credibility and process exhaustion decrease across cycles; locked timing map and hit target unchanged | Passed |
+| C02 failed-transmission bridge | Event-bound, noninteractive (`pointer-events: none`), points to a real poem line | Passed |
+| C01 poem field annexation | Grows from accumulated lines/cycles without obstructing messenger/composer | Passed |
+| C03 historical shell pressure | Measurable, age-derived tonal displacement while remaining textless | Passed |
+| C04 line-anchored bloom (desktop, mobile) | Bloom stays vertically anchored near its own line's real geometry | Passed |
+| C07 mobile fault seam | Usable and unclipped at 320×568, 390×844, 430×932 | Passed |
 
 The machine-readable record is in `tests/qa-results.json`.
 
@@ -98,6 +106,12 @@ Automated execution used **Chromium 144 on Linux** through Playwright. Firefox, 
 3. Historical shells used alternating offsets that could read as scattered rather than accumulated.
 4. The mobile poem control was visually too weak and was clipped by its parent overflow.
 5. The previous tap cycle required an extra state before returning the underfield; tap now directly expands or collapses while drag retains full expansion.
+
+## Adopted and declined decisions
+
+The full list of adopted (C01–C09, preserved C10) and declined systems for this candidate is
+recorded in `CHANGELOG.md` under v2.6.0. Declined: ambient event-driven optical field
+modulation, attachment retinal afterimage, reporting-failure depth collapse.
 
 ## Remaining limit
 

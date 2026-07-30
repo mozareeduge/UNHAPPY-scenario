@@ -1,4 +1,16 @@
-# UNHAPPY Scenario v2.4.0 — Integrated Revision Record
+# UNHAPPY Scenario v2.6.0 — Integrated Revision Record
+
+## v2.6.0 addendum
+
+Built directly on the v2.4.0 record below. Implemented the approved atelier decisions C01–C09
+(poem field annexation, failed-transmission bridge, historical shell pressure, line-anchored
+bloom, process travel exhaustion, decision-field parity, mobile fault seam improvement, retry
+credibility erosion, No-branch nonverbal closure) while preserving C10 and every locked line,
+wait, and privacy invariant below. Declined: ambient event-driven optical field modulation,
+attachment retinal afterimage, reporting-failure depth collapse. Full behavioral detail is in
+`CHANGELOG.md` (v2.6.0) and the C01–C09 QA coverage in `QA_REPORT.md`.
+
+## v2.4.0 — spatial and responsive correction
 
 This edition preserves the successful visual and sensory system of v2.3.0 and corrects its spatial and responsive failures.
 

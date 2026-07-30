@@ -124,6 +124,13 @@ def test_static_html() -> None:
     assert "shell-mark error" not in RAW_HTML
     assert re.search(r"--state-font:\s*Bahnschrift", RAW_HTML)
     assert "by mozare" in RAW_HTML
+    # C06 — decision parity is a source-level fact, not a per-test override.
+    assert "value: 'yes', primary: true" not in RAW_HTML
+    assert "actions: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }]" in RAW_HTML
+    # Rejected systems (ambient optical modulation, attachment afterimage, report-failure depth collapse) absent.
+    assert "attachment-afterimage" not in RAW_HTML
+    assert "depth-collapse" not in RAW_HTML
+    assert "retinal-residue" not in RAW_HTML
 
 
 def test_threshold_and_fonts(browser: Browser) -> None:
@@ -464,6 +471,148 @@ def test_ordered_residue_geometry(browser: Browser) -> None:
     assert not errors
     page.context.close()
 
+def test_decision_parity(browser: Browser) -> None:
+    page, _, errors, _ = new_page(browser)
+    page.click("#enter-button")
+    wait_phase(page, "message-failed")
+    page.locator("#message-retry").evaluate("e=>e.click()")
+    wait_phase(page, "connection-failed")
+    page.locator(".system-shell.active [data-action='retry']").evaluate("e=>e.click()")
+    wait_phase(page, "report-question")
+    active = page.locator(".system-shell.active")
+    yes_btn = active.locator("[data-action='yes']")
+    no_btn = active.locator("[data-action='no']")
+    assert not yes_btn.evaluate("e=>e.classList.contains('primary')")
+    assert not no_btn.evaluate("e=>e.classList.contains('primary')")
+    yb, nb = yes_btn.bounding_box(), no_btn.bounding_box()
+    assert abs(yb["height"] - nb["height"]) < 1
+    assert page.evaluate("document.activeElement?.dataset?.action") == "no"
+    assert not errors
+    page.context.close()
+
+
+def test_no_branch_nonverbal_closure(browser: Browser) -> None:
+    page, _, errors, _ = new_page(browser)
+    page.click("#enter-button")
+    wait_phase(page, "message-failed")
+    page.locator("#message-retry").evaluate("e=>e.click()")
+    wait_phase(page, "connection-failed")
+    page.locator(".system-shell.active [data-action='retry']").evaluate("e=>e.click()")
+    wait_phase(page, "report-question")
+    before = state(page)["noClosureCount"]
+    page.click(".system-shell.active [data-action='no']")
+    page.wait_for_timeout(80)
+    assert page.locator(".system-shell.is-closing").count() == 1
+    wait_phase(page, "renewed-connection-failed")
+    after = state(page)
+    assert after["noClosureCount"] == before + 1
+    poem = [x["text"] for x in after["poem"]]
+    assert "Reporting the problem…" not in poem and "Reporting failed" not in poem
+    assert not errors
+    page.context.close()
+
+
+def test_retry_erosion_and_process_exhaustion(browser: Browser) -> None:
+    page, _, errors, _ = new_page(browser)
+    page.evaluate("window.__UNHAPPY_TEST__.start()")
+    page.wait_for_function("() => document.body.dataset.phase === 'message-failed'", timeout=4000)
+    page.locator("#message-retry").evaluate("e=>e.click()")
+    page.wait_for_function("() => document.body.dataset.phase === 'connection-failed'", timeout=4000)
+    st0 = state(page)
+    assert st0["retryCredibility"] == 1
+    for _ in range(3):
+        page.locator(".system-shell.active [data-action='retry']").evaluate("e=>e.click()")
+        page.wait_for_function("() => document.body.dataset.phase === 'report-question'", timeout=6000)
+        page.click(".system-shell.active [data-action='no']")
+        page.wait_for_function("() => document.body.dataset.phase === 'renewed-connection-failed'", timeout=4000)
+    st3 = state(page)
+    assert st3["retryCredibility"] < st0["retryCredibility"]
+    assert st3["processExhaustion"] < 1
+    assert st3["lockedTimings"] == st0["lockedTimings"]
+    box3 = page.locator(".system-shell.active .retry-call").bounding_box()
+    assert box3["height"] >= 42 and box3["width"] >= 42
+    assert page.locator(".system-shell.active .retry-call").inner_text() == "Try again"
+    assert not errors
+    page.context.close()
+
+
+def test_bridge_event_bound(browser: Browser) -> None:
+    page, _, errors, _ = new_page(browser)
+    page.click("#enter-button")
+    page.wait_for_function("() => document.body.dataset.phase === 'upload-failed'", timeout=8000)
+    page.wait_for_timeout(600)
+    st = state(page)
+    assert st["lastBridge"] is not None
+    assert st["lastBridge"]["sourceType"]
+    assert st["lastBridge"]["lineId"]
+    pointer_events = page.evaluate("() => getComputedStyle(document.querySelector('.bridge-field')).pointerEvents")
+    assert pointer_events == "none"
+    assert not errors
+    page.context.close()
+
+
+def test_annexation_growth(browser: Browser) -> None:
+    page, _, errors, _ = new_page(browser)
+    a0 = state(page)["annexLevel"]
+    page.evaluate("window.__UNHAPPY_TEST__.appendLine('Connection attempt failed')")
+    page.wait_for_timeout(60)
+    a1 = state(page)["annexLevel"]
+    for _ in range(6):
+        page.evaluate("window.__UNHAPPY_TEST__.appendLine('Connection attempt failed')")
+    page.wait_for_timeout(80)
+    a2 = state(page)["annexLevel"]
+    assert a0 == 0
+    assert a0 < a1 < a2 <= 1
+    assert page.locator("#composer").is_visible()
+    assert page.locator("#message-lane").is_visible()
+    assert not errors
+    page.context.close()
+
+
+def test_historical_pressure_measurable(browser: Browser) -> None:
+    page, _, errors, _ = new_page(browser)
+    types = ["connection", "reconnecting", "failed", "question", "reporting", "report-failed", "renewed"]
+    page.evaluate("types => window.__UNHAPPY_TEST__.renderSequence(types)", types)
+    page.wait_for_timeout(400)
+    items = page.locator(".system-shell.historical")
+    n = items.count()
+    assert n >= 4
+    shadow_first = items.nth(0).evaluate("e=>getComputedStyle(e).boxShadow")
+    shadow_last = items.nth(n - 1).evaluate("e=>getComputedStyle(e).boxShadow")
+    assert shadow_first != shadow_last
+    assert not any(items.nth(i).inner_text().strip() for i in range(n))
+    assert not errors
+    page.context.close()
+
+
+def test_bloom_line_anchor(browser: Browser, width: int = 1440, height: int = 900) -> None:
+    page, _, errors, _ = new_page(browser, width, height)
+    page.evaluate("window.__UNHAPPY_TEST__.appendLine('Connection attempt failed')")
+    page.wait_for_timeout(60)
+    line_box = page.locator(".poem-line").last.bounding_box()
+    bloom_box = page.locator(".blood-bloom").last.bounding_box()
+    assert line_box and bloom_box
+    line_center = line_box["y"] + line_box["height"] / 2
+    bloom_center = bloom_box["y"] + bloom_box["height"] / 2
+    assert abs(bloom_center - line_center) < max(line_box["height"] * 3, 60)
+    assert not errors
+    page.context.close()
+
+
+def test_fault_seam_widths(browser: Browser) -> None:
+    for width, height in [(320, 568), (390, 844), (430, 932)]:
+        page, _, errors, _ = new_page(browser, width, height)
+        page.evaluate("window.__UNHAPPY_TEST__.appendLine('Connection attempt failed')")
+        page.wait_for_timeout(60)
+        fault = page.locator("#poem-fault")
+        assert fault.is_visible()
+        box = fault.bounding_box()
+        assert box and box["height"] >= 44 and box["width"] >= 44
+        assert box["x"] >= -1 and box["x"] + box["width"] <= width + 1
+        assert not errors
+        page.context.close()
+
+
 def run() -> int:
     record("Static integrity", "HTML, text and security invariants", test_static_html)
     with sync_playwright() as pw:
@@ -494,6 +643,15 @@ def run() -> int:
         record("Accessibility", "Reduced-motion mode suppresses call animation", lambda: test_reduced_motion(browser))
         record("Visual proportion", "State type remains proportionate to its shell", lambda: test_visual_fonts_and_scale(browser))
         record("Accessibility", "Primary visible controls meet practical target sizes", lambda: test_controls_targets(browser))
+        record("C06 decision parity", "Yes/No receive equal semantic and computed treatment", lambda: test_decision_parity(browser))
+        record("C09 no-branch closure", "No records one nonverbal closure with no reporting text, in the existing interval", lambda: test_no_branch_nonverbal_closure(browser))
+        record("C05/C08 erosion and exhaustion", "Retry credibility and process exhaustion decrease across cycles; timing map and hit target unchanged", lambda: test_retry_erosion_and_process_exhaustion(browser))
+        record("C02 failed-transmission bridge", "Bridge is event-bound, noninteractive, and points to a real poem line", lambda: test_bridge_event_bound(browser))
+        record("C01 poem field annexation", "Annexation grows from accumulated lines without obstructing messenger controls", lambda: test_annexation_growth(browser))
+        record("C03 historical shell pressure", "Historical residues carry measurable, textless tonal displacement", lambda: test_historical_pressure_measurable(browser))
+        record("C04 line-anchored bloom", "Desktop bloom stays vertically anchored near its line", lambda: test_bloom_line_anchor(browser, 1440, 900))
+        record("C04 line-anchored bloom", "Mobile bloom stays vertically anchored near its line", lambda: test_bloom_line_anchor(browser, 390, 844))
+        record("C07 mobile fault seam", "Fault seam remains usable and unclipped at 320×568, 390×844, 430×932", lambda: test_fault_seam_widths(browser))
         browser.close()
 
     output = ROOT / "tests" / "qa-results.json"

@@ -1,5 +1,5 @@
 UNHAPPY Scenario — locked system-message core
-English edition · v2.3.0
+English edition · v2.6.0
 
 Upload failed
 Sending the message failed
