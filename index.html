@@ -9,6 +9,54 @@
   <meta name="description" content="UNHAPPY Scenario — An Internet Blackout Poem by mozare.">
   <meta name="author" content="Mohammad Zare">
   <title>UNHAPPY Scenario — An Internet Blackout Poem</title>
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2064%2064%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%225%22%20fill%3D%22%23000000%22%2F%3E%3Crect%20x%3D%2215%22%20y%3D%2212%22%20width%3D%2234.2%22%20height%3D%2240%22%20rx%3D%227%22%20fill%3D%22%23000000%22%20opacity%3D%221%22%20stroke%3D%22%23eee9df%22%20stroke-width%3D%221.25%22%2F%3E%3Cpath%20d%3D%22M31.5%2014%20L35.60728263557213%2025%20L28.542756502388066%2037%20L32.5%2050%22%20stroke%3D%22%23b34b50%22%20stroke-width%3D%222.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20opacity%3D%220.98%22%2F%3E%3Ccircle%20cx%3D%2231.9%22%20cy%3D%2232%22%20r%3D%221.7%22%20fill%3D%22%23b34b50%22%20stroke%3D%22none%22%20stroke-width%3D%220%22%20opacity%3D%220.84%22%2F%3E%3C%2Fsvg%3E">
+  <link rel="apple-touch-icon" href="data:image/png;base64,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">
+  <script>
+(function(){
+  "use strict";
+  const doc = document;
+  function linkEl(){
+    let link = doc.getElementById("dynamic-favicon");
+    if(!link){
+      link = doc.createElement("link");
+      link.id = "dynamic-favicon";
+      link.rel = "icon";
+      link.type = "image/png";
+      doc.head.appendChild(link);
+    }
+    return link;
+  }
+  function svgToDataURL(svg){ return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg); }
+
+  function rect(x,y,w,h,fill,op=1,rx=0,stroke="none",sw=0){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" opacity="${op}" stroke="${stroke}" stroke-width="${sw}"/>`}
+  function circ(x,y,r,fill,stroke="none",sw=0,op=1){return `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" opacity="${op}"/>`}
+  function path(d,stroke,sw=2,fill="none",op=1){return `<path d="${d}" stroke="${stroke}" stroke-width="${sw}" fill="${fill}" stroke-linecap="round" stroke-linejoin="round" opacity="${op}"/>`}
+  function wrap(inner,bg){return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="5" fill="${bg}"/>${inner}</svg>`}
+  function icon(t){
+    const bg="#000000",fg="#eee9df",red="#b34b50";
+    const seamX=31.5+2.5*Math.sin(t*2*Math.PI);
+    const bend=6*Math.max(0,Math.sin((t+.12)*2*Math.PI));
+    const shrink=1+5*Math.max(0,Math.sin((t+.52)*2*Math.PI));
+    let g='';
+    g+=rect(14+shrink,12,36-shrink*1.8,40,bg,1,7,fg,1.25);
+    g+=path(`M${seamX} 14 L${seamX+bend} 25 L${seamX-bend*.72} 37 L${seamX+1} 50`,red,2.5,"none",.98);
+    g+=circ(seamX+.4,32,1.7,red,"none",0,.84);
+    return wrap(g,bg);
+  }
+  const state={playing:true,speed:2.5,t:0,tick:0,timer:null,stepSize:.0625};
+  function intervalMs(){return Math.max(55,Math.round(450/state.speed))}
+  function render(){const svg=icon(state.t);linkEl().href=svgToDataURL(svg);window.dispatchEvent(new CustomEvent("mozare-favicon-frame",{detail:{...state,svg}}))}
+  function advance(){state.t=(state.t+state.stepSize)%1;state.tick++;render()}
+  function stop(){if(state.timer!==null){clearInterval(state.timer);state.timer=null}}
+  function start(){stop();if(!state.playing)return;state.timer=setInterval(advance,intervalMs())}
+  function play(){state.playing=true;start()} function pause(){state.playing=false;stop()}
+  function setSpeed(v){state.speed=Number(v);if(state.playing)start()}
+  function reset(){state.t=0;state.tick=0;render();if(state.playing)start()}
+  window.MozareFavicon={state,play,pause,step:()=>{pause();advance()},reset,setSpeed,render};
+  doc.addEventListener("visibilitychange",()=>{if(doc.visibilityState==="visible"&&state.playing)start()});
+  render();start();
+})();
+  </script>
   <style>
     :root {
       color-scheme: dark;
