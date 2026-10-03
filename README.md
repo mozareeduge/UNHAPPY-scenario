@@ -1,8 +1,24 @@
 # UNHAPPY Scenario
 
-**An Internet Blackout Poem**  
-**by mozare**  
-English edition · v2.6.0 · 2026
+**by Mohammad Zare (Mozare) · version 2.6.0 · [Experience the work](https://unhappy.theblackbirdfield.com/)**
+
+*UNHAPPY Scenario* is an internet blackout poem, an English-language browser work.
+
+**The work's statement**
+
+> Software calls the route away from success an unhappy scenario. The phrase makes interruption sound manageable: a branch to be anticipated, named, and recovered from.
+>
+> UNHAPPY Scenario stays with that calm language after recovery has ceased to be credible. Drawn from the small notices through which systems explain failure and promise return, the poem carries their familiar English into the memory of repeated internet blackouts in Iran. What begins as technical inconvenience becomes a vocabulary for isolation, deferred contact, and an accountability that cannot be reached.
+
+**Status:** published work, English edition, version 2.6.0; this repository is its public source.
+
+**How to cite:** Zare, M. (2026). *UNHAPPY Scenario: An Internet Blackout Poem* (Version 2.6.0) [Electronic literature]. https://unhappy.theblackbirdfield.com/
+
+**Rights:** Copyright 2026 Mohammad Zare. Quotation, scholarly discussion, review and archival description are permitted with attribution; reproduction, adaptation, exhibition or republication of the complete work requires permission. See [RIGHTS.md](RIGHTS.md).
+
+---
+
+## Engineering notes
 
 `index.html` is the complete standalone artwork. It contains no external runtime dependency and performs no upload, message transmission, connectivity test, report, analytics request, cookie write, or persistent-storage operation.
 

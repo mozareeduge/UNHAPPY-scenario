@@ -5,8 +5,11 @@ type: software
 authors:
   - family-names: Zare
     given-names: Mohammad
+    orcid: "https://orcid.org/0009-0002-9032-3614"
     alias: mozare
 version: 2.6.0
 date-released: 2026-07-30
 abstract: "A browser-native found-interface poem made in relation to repeated internet blackouts in Iran."
-license: LicenseRef-Proprietary
+url: "https://unhappy.theblackbirdfield.com/"
+repository-code: "https://github.com/mozareeduge/UNHAPPY-scenario"
+license-url: "https://github.com/mozareeduge/UNHAPPY-scenario/blob/main/RIGHTS.md"
