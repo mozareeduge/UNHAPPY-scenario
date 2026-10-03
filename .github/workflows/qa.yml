@@ -5,6 +5,7 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: qa-${{ github.workflow }}-${{ github.ref }}
@@ -21,6 +22,8 @@ jobs:
   browser-qa:
     runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 15
+    permissions:
+      contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -38,6 +41,35 @@ jobs:
 
       - name: Run static and browser QA
         run: python tests/qa.py
+
+      - name: Stage verified canonical artwork
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          mkdir -p _site
+          cp index.html _site/; touch _site/.nojekyll; printf '%s\n' 'unhappy.theblackbirdfield.com' > _site/CNAME
+          python -c "import json,os,pathlib; pathlib.Path('_site/release.json').write_text(json.dumps({'commit':os.environ['GITHUB_SHA'],'artwork_version':'2.6.0'},indent=2)+'\n',encoding='utf-8')"
+      - uses: actions/checkout@v4
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          ref: gh-pages
+          path: _publish
+      - name: Publish gh-pages without artifact uploads
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cp _site/* _publish/
+          cp _site/.nojekyll _publish/.nojekyll
+          cd _publish
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config core.autocrlf false
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish verified source $GITHUB_SHA"
+            git push origin gh-pages
+          fi
 
       - name: Upload QA results
         if: always()
