@@ -28,10 +28,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install test dependencies
-        run: pip install -r tests/requirements.txt
+        run: python -m pip install -r tests/requirements.txt
 
       - name: Install Chromium for Playwright
         run: python -m playwright install --with-deps chromium
@@ -41,6 +41,7 @@ jobs:
 
       - name: Upload QA results
         if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: qa-results

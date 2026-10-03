@@ -3,60 +3,59 @@ name: Deploy Pages
 on:
   push:
     branches: [main]
+  # QA pull requests are checked by qa.yml
   workflow_dispatch:
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
 defaults:
   run:
     shell: bash
-
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/main'
     runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
-    timeout-minutes: 10
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    timeout-minutes: 15
+    permissions:
+      contents: write
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Pages
-        uses: actions/configure-pages@v5
-
-      - name: Stage site with release identity
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r tests/requirements.txt
+      - name: Install Chromium
+        run: python -m playwright install --with-deps chromium
+      - name: Verify static and browser invariants
+        run: python tests/qa.py
+      - name: Stage verified canonical artwork
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          mkdir -p _site
+          cp index.html _site/; touch _site/.nojekyll; printf '%s\n' 'unhappy.theblackbirdfield.com' > _site/CNAME
+          python -c "import json,os,pathlib; pathlib.Path('_site/release.json').write_text(json.dumps({'commit':os.environ['GITHUB_SHA'],'artwork_version':'2.6.0'},indent=2)+'\n',encoding='utf-8')"
+      - uses: actions/checkout@v4
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          ref: gh-pages
+          path: _publish
+      - name: Publish gh-pages without artifact uploads
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          rm -rf _site
-          mkdir -p _site
-          rsync -a \
-            --exclude='.git' \
-            --exclude='_site' \
-            --exclude='project-execution-package' \
-            --exclude='.claude' \
-            ./ _site/
-          cat > _site/release.json <<JSON
-          {
-            "commit": "${GITHUB_SHA}",
-            "package_id": "unhappy-scenario-v2.6.2-brain-body-one-shot-2026-07-30",
-            "artwork_version": "2.6.0"
-          }
-          JSON
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          cp _site/* _publish/
+          cp _site/.nojekyll _publish/.nojekyll
+          cd _publish
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config core.autocrlf false
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish verified source $GITHUB_SHA"
+            git push origin gh-pages
+          fi
